@@ -1,18 +1,8 @@
-{{- /* category-section.html — 分类文章列表区块
-   从 Astro CategorySection.astro 迁移
-   参数:
-     .title      — 区块标题（如 "校园资讯"）
-     .slug       — 分类标识（如 "news"），用于匹配文章 frontmatter 的 category 字段
-     .limit      — 最多显示条数
-     .moreText   — "更多"链接文字
-     .dateFormat — 日期格式模板
-   文章筛选: .Site.RegularPages 中 Params.category = slug 且非草稿
-*/ -}}
+{{- /* category-section.html — 分类文章列表区块（首页用，无日期显示）*/ -}}
 
 {{- $slug := .slug }}
 {{- $limit := .limit | default 5 }}
 {{- $moreText := $.moreText | default (site.Params.ui.moreText | default "更多 →") }}
-{{- $dateFormat := $.dateFormat | default (site.Params.ui.dateFormat | default "{month}月") }}
 
 {{- $posts := where (where site.RegularPages "Section" $slug) "Draft" "!=" true }}
 {{- $posts = $posts.ByDate.Reverse }}
@@ -29,17 +19,6 @@
     {{- range $showPosts }}
     <div class="list-item">
       <a href="{{ .RelPermalink }}" class="list-link">
-        <span class="list-date-block">
-          <span class="list-day">{{ .Date.Format "02" }}</span>
-          <span class="list-month">
-            {{- $d := .Date }}
-            {{- $df := $dateFormat }}
-            {{- $df = replace $df "{year}" ($d.Format "2006") }}
-            {{- $df = replace $df "{month}" ($d.Format "01") }}
-            {{- $df = replace $df "{day}" ($d.Format "02") }}
-            {{- $df }}
-          </span>
-        </span>
         <span class="list-text">{{ .Title }}</span>
       </a>
     </div>

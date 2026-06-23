@@ -1,12 +1,8 @@
-{{- /* header.html — 顶栏工具栏 + 站点标题区
-   从 Astro Header.astro 迁移
-   配置来源: params.topBar, params.siteLogo, params.siteSubtitle, params.ui.fontSizeLabels
-*/ -}}
-
+{{- /* header.html — 顶栏工具栏 + 站点标题区 */}}
 {{- $topBar := site.Params.topBar | default dict }}
 {{- $enabled := $topBar.enabled | default true }}
-{{- if $enabled }}
-<div class="toolbar">
+
+<div class="toolbar" id="toolbar">
   <div class="container toolbar-inner">
     <div class="toolbar-left">
       {{- range $topBar.quickLinks }}
@@ -14,7 +10,6 @@
       {{- end }}
     </div>
     <div class="toolbar-right">
-      {{- /* 字号切换按钮 */}}
       {{- $fl := site.Params.ui.fontSizeLabels | default dict }}
       <span class="font-size-group">
         <a href="#" class="font-btn font-small" data-size="small" title="{{ $fl.small | default "小" }}字号">{{ $fl.small | default "小" }}</a>
@@ -23,23 +18,18 @@
         <span class="font-sep">|</span>
         <a href="#" class="font-btn font-large" data-size="large" title="{{ $fl.large | default "大" }}字号">{{ $fl.large | default "大" }}</a>
       </span>
-
-      {{- /* 搜索框 */}}
       {{- if $topBar.searchEnabled }}
       <form class="search-form" action="/search" method="get">
         <input type="text" class="search-input" placeholder="{{ $topBar.searchPlaceholder | default "请输入关键字" }}" name="keyword" />
         <button type="submit" class="search-btn">搜索</button>
       </form>
       {{- end }}
-
-      {{- /* 右侧链接 */}}
       {{- range $topBar.rightLinks }}
         <a href="{{ .url }}" target="{{ .target | default "_self" }}" class="toolbar-link toolbar-link-right">{{ .text }}</a>
       {{- end }}
     </div>
   </div>
 </div>
-{{- end }}
 
 {{- /* 站点标题区 */}}
 {{- $siteName := site.Title }}
@@ -58,5 +48,36 @@
       <p class="site-subtitle">{{ $siteSubtitle }}</p>
       {{- end }}
     </div>
+    {{- /* 手机端菜单按钮 */}}
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </div>
+
+{{- /* 手机端滑出菜单面板 */}}
+<div class="mobile-panel" id="mobilePanel">
+  <div class="mobile-panel-inner">
+    {{- if $enabled }}
+    <div class="mobile-section">
+      <div class="mobile-section-title">快捷入口</div>
+      {{- range $topBar.quickLinks }}
+        <a href="{{ .url }}" target="{{ .target | default "_self" }}" class="mobile-link">{{ .text }}</a>
+      {{- end }}
+      {{- range $topBar.rightLinks }}
+        <a href="{{ .url }}" target="{{ .target | default "_self" }}" class="mobile-link">{{ .text }}</a>
+      {{- end }}
+    </div>
+    {{- end }}
+    {{- $fl := site.Params.ui.fontSizeLabels | default dict }}
+    <div class="mobile-section">
+      <div class="mobile-section-title">字号</div>
+      <div class="mobile-font-size">
+        <a href="#" class="font-btn font-small" data-size="small">{{ $fl.small | default "小" }}</a>
+        <a href="#" class="font-btn font-medium" data-size="medium">{{ $fl.medium | default "中" }}</a>
+        <a href="#" class="font-btn font-large" data-size="large">{{ $fl.large | default "大" }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mobile-overlay" id="mobileOverlay"></div>

@@ -34,13 +34,15 @@
     {{- /* 文章标题 */}}
     <h1 class="article-title">{{ .Title }}</h1>
 
-    {{- /* 文章元信息 */}}
+    {{- /* 文章元信息（仅文章类页面显示，独立页面不显示）*/}}
+    {{- if .Section }}
     <div class="article-meta">
       <time class="article-date">{{ .Date.Format "2006-01-02" }}</time>
       {{- with .Params.author }}
       <span class="article-author">{{ $authorLabel }}{{ . }}</span>
       {{- end }}
     </div>
+    {{- end }}
 
     {{- /* 文章摘要 */}}
     {{- with .Params.summary }}

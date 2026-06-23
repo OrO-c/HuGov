@@ -702,6 +702,99 @@ html[data-font-size="large"] h3 { font-size: 18px; }
 html[data-font-size="large"] .module-title { font-size: 17px; }
 
 /* ============================================================ */
+/* 手机端菜单按钮 + 滑出面板                */
+/* ============================================================ */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: 1px solid var(--color-border, #CCC);
+  cursor: pointer;
+  padding: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+  border-radius: 2px;
+}
+.menu-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--color-text, #333);
+  transition: transform 0.2s, opacity 0.2s;
+}
+.menu-toggle.active span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+.menu-toggle.active span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.mobile-panel {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: -280px;
+  width: 280px;
+  height: 100%;
+  background: #FFF;
+  z-index: 1000;
+  transition: right 0.25s ease;
+  box-shadow: -2px 0 8px rgba(0,0,0,.1);
+  overflow-y: auto;
+}
+.mobile-panel.open { right: 0; }
+.mobile-panel-inner { padding: 16px; }
+.mobile-section { margin-bottom: 16px; }
+.mobile-section-title {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--color-divider, #EEE);
+}
+.mobile-link {
+  display: block;
+  padding: 8px 4px;
+  font-size: 14px;
+  color: var(--color-text, #333);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-divider, #EEE);
+}
+.mobile-link:hover { color: var(--color-primary, #036); text-decoration: none; }
+.mobile-font-size { display: flex; gap: 6px; }
+.mobile-font-size .font-btn {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid var(--color-border, #CCC);
+  color: var(--color-text, #333);
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.mobile-font-size .font-btn.active {
+  background: var(--color-primary, #036);
+  color: #FFF;
+  border-color: var(--color-primary, #036);
+}
+
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,.35);
+  z-index: 999;
+}
+.mobile-overlay.open { display: block; }
+
+/* ============================================================ */
 /* 响应式                                   */
 /* ============================================================ */
 @media (max-width: 1199px) {
@@ -723,7 +816,7 @@ html[data-font-size="large"] .module-title { font-size: 17px; }
   .container { padding: 0 10px; }
   .module { padding: 8px; }
   .article { padding: 15px 18px; }
-  .toolbar { display: none; }
+  .menu-toggle { display: flex; }
   .header-main { padding: 8px 0; }
   .site-name { font-size: 18px; }
   .logo-img { max-height: 44px; }
