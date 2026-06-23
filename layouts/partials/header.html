@@ -58,6 +58,23 @@
 {{- /* 手机端滑出菜单面板 */}}
 <div class="mobile-panel" id="mobilePanel">
   <div class="mobile-panel-inner">
+    {{- /* 主导航（手机端）*/}}
+    <div class="mobile-section">
+      <div class="mobile-section-title">导航菜单</div>
+      {{- range .Site.Menus.main }}
+        {{- if .HasChildren }}
+        <div class="mobile-nav-group">
+          <div class="mobile-nav-parent">{{ .Name }}</div>
+          {{- range .Children }}
+          <a href="{{ .URL | relLangURL }}" class="mobile-link mobile-link-sub">{{ .Name }}</a>
+          {{- end }}
+        </div>
+        {{- else }}
+        <a href="{{ .URL | relLangURL }}" class="mobile-link">{{ .Name }}</a>
+        {{- end }}
+      {{- end }}
+    </div>
+
     {{- if $enabled }}
     <div class="mobile-section">
       <div class="mobile-section-title">快捷入口</div>
@@ -69,6 +86,7 @@
       {{- end }}
     </div>
     {{- end }}
+
     {{- $fl := site.Params.ui.fontSizeLabels | default dict }}
     <div class="mobile-section">
       <div class="mobile-section-title">字号</div>

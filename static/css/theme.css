@@ -795,6 +795,21 @@ html[data-font-size="large"] .module-title { font-size: 17px; }
 }
 .mobile-overlay.open { display: block; }
 
+.mobile-nav-group { margin-bottom: 2px; }
+.mobile-nav-parent {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--color-primary, #036);
+  padding: 8px 4px 2px;
+  border-bottom: none;
+}
+.mobile-link-sub {
+  padding-left: 20px !important;
+  font-size: 13px;
+  color: #555;
+  border-bottom: 1px solid var(--color-divider, #EEE);
+}
+
 /* ============================================================ */
 /* 响应式                                   */
 /* ============================================================ */
@@ -818,6 +833,7 @@ html[data-font-size="large"] .module-title { font-size: 17px; }
   .module { padding: 8px; }
   .article { padding: 15px 18px; }
   .menu-toggle { display: flex; }
+  .nav { display: none; }
   .header-main { padding: 8px 0; }
   .site-name { font-size: 18px; }
   .logo-img { max-height: 44px; }
