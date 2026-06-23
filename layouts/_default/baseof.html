@@ -9,5 +9,9 @@
   </main>
   {{- partial "footer.html" . }}
   {{- partial "scripts.html" . }}
+  {{- /* 手机菜单内联 JS — 独立于外部文件，确保 100% 可用 */}}
+  <script>
+  (function(){var b=document.getElementById('menuToggle'),c=document.getElementById('mobilePanel'),d=document.getElementById('mobileOverlay');if(!b||!c||!d)return;function e(){c.classList.add('open');d.classList.add('open');b.classList.add('active');document.body.style.overflow='hidden'}function f(){c.classList.remove('open');d.classList.remove('open');b.classList.remove('active');document.body.style.overflow=''}b.addEventListener('click',function(){c.classList.contains('open')?f():e()});d.addEventListener('click',f)})();
+  </script>
 </body>
 </html>
