@@ -1,0 +1,10 @@
+# themes/hugov/theme.toml — 主题元信息
+name         = "Hugov"
+license      = "MIT"
+licenselink  = "https://github.com/OrO-c/AstGov/blob/main/LICENSE"
+description  = "2005 风格的老派机构/政府/大学网站 Hugo 主题 — Hugov (AstGov → Hugo)"
+homepage     = "https://github.com/OrO-c/astgov-hugo"
+tags         = ["government", "university", "china", "retro", "institutional", "responsive"]
+features     = ["轮播图", "分类文章列表", "导航下拉菜单", "配色方案", "字号切换", "倒计时", "友情链接", "快速通道"]
+min_version  = "0.120.0"
+author = { name = "Hugov Team", homepage = "https://github.com/OrO-c" }

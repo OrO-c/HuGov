@@ -1,0 +1,9 @@
+{{- /* 404.html — 页面未找到 */ -}}
+
+{{ define "main" }}
+<div class="container page-section" style="text-align: center; padding: 80px 0;">
+  <h1 style="font-size: 72px; color: var(--color-secondary, #C00); margin-bottom: 20px;">404</h1>
+  <p style="font-size: 18px; color: var(--color-text, #333); margin-bottom: 30px;">抱歉，您访问的页面不存在。</p>
+  <a href="{{ "/" | relLangURL }}" style="display: inline-block; padding: 10px 30px; background: var(--color-primary, #036); color: #FFF; text-decoration: none; font-size: 15px;">返回首页</a>
+</div>
+{{ end }}

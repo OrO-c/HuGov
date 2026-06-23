@@ -1,0 +1,22 @@
+{{- /* page/single.html — 独立页面模板
+   适用于 content/about.md、content/contact.md 等页面
+   不含文章元信息（作者/日期/标签），仅标题 + 正文
+   使用 BlogLayout.astro 的简化映射
+*/ -}}
+
+{{ define "main" }}
+<div class="container page-section">
+  <nav class="breadcrumb">
+    <a href="{{ "/" | relLangURL }}">首页</a>
+    <span> &gt; </span>
+    <span>{{ .Title }}</span>
+  </nav>
+
+  <article class="article">
+    <h1 class="page-title">{{ .Title }}</h1>
+    <div class="article-content">
+      {{ .Content }}
+    </div>
+  </article>
+</div>
+{{ end }}

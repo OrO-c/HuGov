@@ -1,0 +1,33 @@
+{{- /* headline.html — 头条图片卡片网格
+   从 Astro Headline.astro 迁移
+   数据来源: content/headline/ 下的页面
+   排序: .Weight
+*/ -}}
+
+{{- $headlineSection := .Site.GetPage "/headline" }}
+{{- $cards := slice }}
+{{- if $headlineSection }}
+  {{- $cards = $headlineSection.Pages.ByWeight }}
+{{- end }}
+
+{{- if $cards }}
+<section class="headline-section">
+  <div class="container">
+    <div class="headline-grid">
+      {{- range $cards }}
+      <article class="headline-card">
+        <a href="{{ .Params.link | default "#" }}">
+          <div class="card-img">
+            <img src="{{ .Params.src | relURL }}" alt="{{ .Params.alt }}"{{ with .Params.width }} width="{{ . }}"{{ end }}{{ with .Params.height }} height="{{ . }}"{{ end }} />
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">{{ .Params.title }}</h3>
+            <time class="card-date">{{ .Params.date }}</time>
+          </div>
+        </a>
+      </article>
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{- end }}

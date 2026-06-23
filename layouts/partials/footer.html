@@ -1,0 +1,74 @@
+{{- /* footer.html — 底部信息区
+   从 Astro Footer.astro 迁移
+   配置来源: params.footer, params.ui.copyright
+*/ -}}
+
+{{- $f := site.Params.footer | default dict }}
+{{- $org := $f.organization | default "" }}
+{{- $contacts := $f.contacts | default slice }}
+{{- $records := $f.records | default slice }}
+{{- $policeRecord := $f.policeRecord | default "" }}
+{{- $links := $f.links | default slice }}
+{{- $extraLinks := $f.extraLinks | default slice }}
+{{- $qrCodes := $f.qrCodes | default slice }}
+{{- $footerLogo := $f.footerLogo | default "" }}
+{{- $copyrightTmpl := site.Params.ui.copyright | default "版权所有 © {year} {org}" }}
+
+<footer class="footer">
+  <div class="container">
+    {{- /* 机构名称 + 备案信息 */}}
+    <div class="footer-bar">
+      {{- if $org }}<span class="footer-org">{{ $org }}</span>{{ end }}
+      {{- range $records }}
+        <span class="footer-sep">|</span>
+        <span>
+          {{- if .link }}<a href="{{ .link }}" target="_blank" rel="noopener">{{ .value }}</a>
+          {{- else }}{{ .value }}{{ end }}
+        </span>
+      {{- end }}
+      {{- if $policeRecord }}
+        <span class="footer-sep">|</span>
+        <a href="http://www.beian.gov.cn" target="_blank" rel="noopener">{{ $policeRecord }}</a>
+      {{- end }}
+    </div>
+
+    {{- /* 联系方式 */}}
+    {{- if $contacts }}
+    <div class="footer-contacts">
+      {{- range $contacts }}
+        <span class="contact-item">{{ .label }}：{{ .value }}</span>
+      {{- end }}
+    </div>
+    {{- end }}
+
+    {{- /* 额外链接 */}}
+    {{- if $extraLinks }}
+    <div class="footer-extra">
+      {{- range $i, $link := $extraLinks }}
+        {{- if $i }}<span class="footer-sep">|</span>{{ end }}
+        <a href="{{ $link.url }}">{{ $link.text }}</a>
+      {{- end }}
+    </div>
+    {{- end }}
+
+    {{- /* 二维码 */}}
+    {{- if $qrCodes }}
+    <div class="footer-qr">
+      {{- range $qrCodes }}
+      <div class="qr-item">
+        <img src="{{ .src | relURL }}" alt="{{ .alt }}" class="qr-img" />
+        <span class="qr-alt">{{ .alt }}</span>
+      </div>
+      {{- end }}
+    </div>
+    {{- end }}
+
+    {{- /* 版权信息 */}}
+    <div class="footer-copyright">
+      {{- $year := now.Format "2006" }}
+      {{- $copyright := replace $copyrightTmpl "{year}" $year }}
+      {{- $copyright = replace $copyright "{org}" $org }}
+      {{- $copyright }}
+    </div>
+  </div>
+</footer>

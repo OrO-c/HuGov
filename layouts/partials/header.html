@@ -1,0 +1,62 @@
+{{- /* header.html — 顶栏工具栏 + 站点标题区
+   从 Astro Header.astro 迁移
+   配置来源: params.topBar, params.siteLogo, params.siteSubtitle, params.ui.fontSizeLabels
+*/ -}}
+
+{{- $topBar := site.Params.topBar | default dict }}
+{{- $enabled := $topBar.enabled | default true }}
+{{- if $enabled }}
+<div class="toolbar">
+  <div class="container toolbar-inner">
+    <div class="toolbar-left">
+      {{- range $topBar.quickLinks }}
+        <a href="{{ .url }}" target="{{ .target | default "_self" }}" class="toolbar-link">{{ .text }}</a>
+      {{- end }}
+    </div>
+    <div class="toolbar-right">
+      {{- /* 字号切换按钮 */}}
+      {{- $fl := site.Params.ui.fontSizeLabels | default dict }}
+      <span class="font-size-group">
+        <a href="#" class="font-btn font-small" data-size="small" title="{{ $fl.small | default "小" }}字号">{{ $fl.small | default "小" }}</a>
+        <span class="font-sep">|</span>
+        <a href="#" class="font-btn font-medium" data-size="medium" title="{{ $fl.medium | default "中" }}字号">{{ $fl.medium | default "中" }}</a>
+        <span class="font-sep">|</span>
+        <a href="#" class="font-btn font-large" data-size="large" title="{{ $fl.large | default "大" }}字号">{{ $fl.large | default "大" }}</a>
+      </span>
+
+      {{- /* 搜索框 */}}
+      {{- if $topBar.searchEnabled }}
+      <form class="search-form" action="/search" method="get">
+        <input type="text" class="search-input" placeholder="{{ $topBar.searchPlaceholder | default "请输入关键字" }}" name="keyword" />
+        <button type="submit" class="search-btn">搜索</button>
+      </form>
+      {{- end }}
+
+      {{- /* 右侧链接 */}}
+      {{- range $topBar.rightLinks }}
+        <a href="{{ .url }}" target="{{ .target | default "_self" }}" class="toolbar-link toolbar-link-right">{{ .text }}</a>
+      {{- end }}
+    </div>
+  </div>
+</div>
+{{- end }}
+
+{{- /* 站点标题区 */}}
+{{- $siteName := site.Title }}
+{{- $siteSubtitle := site.Params.siteSubtitle }}
+{{- $siteLogo := site.Params.siteLogo }}
+<div class="header-main">
+  <div class="container header-main-inner">
+    {{- if $siteLogo }}
+    <a href="{{ "/" | relLangURL }}" class="logo-link">
+      <img src="{{ $siteLogo | relURL }}" alt="{{ $siteName }}" class="logo-img" />
+    </a>
+    {{- end }}
+    <div class="site-title-group">
+      <h1 class="site-name"><a href="{{ "/" | relLangURL }}">{{ $siteName }}</a></h1>
+      {{- if $siteSubtitle }}
+      <p class="site-subtitle">{{ $siteSubtitle }}</p>
+      {{- end }}
+    </div>
+  </div>
+</div>

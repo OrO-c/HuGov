@@ -1,0 +1,19 @@
+{{- /* friend-links.html — 友情链接区块
+   从 Astro FriendLinks.astro 迁移
+   配置来源: params.friendLinks[], params.ui.friendLinks
+*/ -}}
+
+{{- $links := site.Params.friendLinks | default slice }}
+{{- $ui := site.Params.ui.friendLinks | default dict }}
+{{- $title := $ui.title | default "友情链接" }}
+
+{{- if $links }}
+<div class="module">
+  <h3 class="module-title">{{ $title }}</h3>
+  <div class="fl-links">
+    {{- range $links }}
+    <a href="{{ .url }}" target="{{ .target | default "_blank" }}" rel="noopener" class="fl-item">{{ .text }}</a>
+    {{- end }}
+  </div>
+</div>
+{{- end }}

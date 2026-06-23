@@ -1,0 +1,30 @@
+{{- /* quick-links.html — 快速通道可展开栏
+   从 Astro QuickLinks.astro 迁移
+   配置来源: params.quickLinks[], params.ui.quickLinks
+*/ -}}
+
+{{- $links := site.Params.quickLinks | default slice }}
+{{- $ui := site.Params.ui.quickLinks | default dict }}
+{{- $title := $ui.title | default "快速通道" }}
+{{- $expandText := $ui.expandText | default "展开更多" }}
+{{- $collapseText := $ui.collapseText | default "收起" }}
+
+{{- if $links }}
+<section class="ql-section">
+  <div class="container">
+    <div class="ql-bar">
+      <div class="ql-label">{{ $title }}</div>
+      <div class="ql-list" id="qlList">
+        {{- range $links }}
+        <a href="{{ .url }}" target="{{ .target | default "_self" }}" class="ql-item">
+          <span class="ql-text">{{ .text }}</span>
+        </a>
+        {{- end }}
+      </div>
+      {{- if gt (len $links) 4 }}
+      <button class="ql-toggle" id="qlToggle" data-expand="{{ $expandText }}" data-collapse="{{ $collapseText }}">{{ $expandText }}</button>
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{- end }}

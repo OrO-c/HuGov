@@ -1,0 +1,145 @@
+# themes/hugov/config.toml
+# 主题默认配置 — 用户项目根目录的 config/_default/params.toml 会覆盖这里
+# 本文件提供所有参数的默认值，确保主题开箱即用
+
+# ============================================================
+# Permalink 规则 — 文章分类 URL 格式
+# content/news/my-post.md → /news/my-post/
+# ============================================================
+[permalinks]
+  page = "/:slug/"
+
+[params]
+  # ============================================================
+  # 站点基本信息
+  # ============================================================
+  description = "基于 Hugo 的政府/高校风格网站"
+  siteSubtitle = "Government & University Website"
+  siteLogo = ""
+  siteIcon = "/favicon.svg"
+  defaultFontSize = "medium"
+
+  # ============================================================
+  # 配色方案（CSS 变量）
+  # ============================================================
+  [params.colors]
+    primary = "#003366"
+    primaryLight = "#184390"
+    secondary = "#CC0000"
+    accent = "#FF6600"
+    background = "#F5F5F5"
+    text = "#333333"
+    link = "#0000FF"
+    linkVisited = "#800080"
+    border = "#CCCCCC"
+    divider = "#EEEEEE"
+    fontFamily = "宋体, SimSun, serif"
+
+  # ============================================================
+  # 顶栏（TopBar）
+  # ============================================================
+  [params.topBar]
+    enabled = true
+    searchEnabled = false
+    searchPlaceholder = "请输入关键字"
+
+  # ============================================================
+  # 首页模块开关
+  # ============================================================
+  [params.modules]
+    banner = true
+    headline = true
+    countdown = false
+    quickLinks = true
+    friendLinks = true
+
+  # ============================================================
+  # 分类定义（首页文章列表分区）
+  # ============================================================
+  [[params.categories]]
+    title = "校园资讯"
+    slug = "news"
+    limit = 8
+    side = "main"
+  [[params.categories]]
+    title = "通知公告"
+    slug = "announce"
+    limit = 5
+    side = "side"
+  [[params.categories]]
+    title = "学术动态"
+    slug = "academics"
+    limit = 5
+    side = "side"
+
+  # ============================================================
+  # 快速通道链接
+  # ============================================================
+  [[params.quickLinks]]
+    text = "招生信息"
+    url  = "/admission"
+
+  # ============================================================
+  # 友情链接
+  # ============================================================
+  [[params.friendLinks]]
+    text = "中华人民共和国教育部"
+    url  = "http://www.moe.gov.cn"
+
+  # ============================================================
+  # 底部信息（Footer）
+  # ============================================================
+  [params.footer]
+    organization = "示例大学"
+    footerLogo = ""
+
+  # ============================================================
+  # 界面文字（UI Labels）
+  # ============================================================
+  [params.ui]
+    moreText = "更多 →"
+    dropdownArrow = "▼"
+    copyright = "版权所有 © {year} {org}"
+
+    [params.ui.quickLinks]
+      title = "快速通道"
+      expandText = "展开更多"
+      collapseText = "收起"
+
+    [params.ui.friendLinks]
+      title = "友情链接"
+
+    [params.ui.fontSizeLabels]
+      small = "小"
+      medium = "中"
+      large = "大"
+
+    [params.ui.countdown]
+      labels = { days = "天", hours = "时", minutes = "分", seconds = "秒" }
+
+    dateFormat = "{month}月"
+
+    [params.ui.article]
+      authorLabel = "作者："
+      tagLabel = "标签："
+      backLinkText = "← 返回列表"
+
+  # ============================================================
+  # SEO 元数据
+  # ============================================================
+  [params.meta]
+    keywords = "大学,教育,招生,官方网站"
+
+  # ============================================================
+  # 导航高亮项标识
+  # ============================================================
+  navHighlight = "signup"
+
+  # ============================================================
+  # 倒计时组件
+  # ============================================================
+  [params.countdown]
+    title = "距报名截止还有"
+    targetDate = ""
+    buttonLink = "/signup"
+    buttonText = "立即报名 →"

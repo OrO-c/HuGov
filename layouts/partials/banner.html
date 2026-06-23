@@ -1,0 +1,39 @@
+{{- /* banner.html — 轮播图
+   从 Astro Banner.astro 迁移
+   数据来源: content/banner/ 下的页面
+   排序: .Weight
+   默认高度: params.bannerHeight | 360
+   自动播放间隔在前端 JS 中控制
+*/ -}}
+
+{{- $bannerSection := .Site.GetPage "/banner" }}
+{{- $images := slice }}
+{{- if $bannerSection }}
+  {{- $images = $bannerSection.Pages.ByWeight }}
+{{- end }}
+
+{{- if $images }}
+{{- $height := site.Params.bannerHeight | default 360 }}
+{{- $prevText := site.Params.ui.banner.prevText | default "‹" }}
+{{- $nextText := site.Params.ui.banner.nextText | default "›" }}
+<div class="banner" id="banner" style="--banner-height: {{ $height }}px">
+  <div class="banner-slides" id="bannerSlides">
+    {{- range $i, $img := $images }}
+    <div class="banner-slide" data-index="{{ $i }}">
+      {{- if $img.Params.link }}<a href="{{ $img.Params.link }}">{{ end }}
+      <img src="{{ $img.Params.src | relURL }}" alt="{{ $img.Params.alt }}"{{ with $img.Params.width }} width="{{ . }}"{{ end }}{{ with $img.Params.height }} height="{{ . }}"{{ end }} />
+      {{- if $img.Params.link }}</a>{{ end }}
+    </div>
+    {{- end }}
+  </div>
+  {{- if gt (len $images) 1 }}
+  <button class="banner-btn banner-prev" id="bannerPrev" aria-label="上一张">{{ $prevText }}</button>
+  <button class="banner-btn banner-next" id="bannerNext" aria-label="下一张">{{ $nextText }}</button>
+  <div class="banner-dots" id="bannerDots">
+    {{- range $i, $_ := $images }}
+    <span class="banner-dot{{ if eq $i 0 }} active{{ end }}" data-index="{{ $i }}"></span>
+    {{- end }}
+  </div>
+  {{- end }}
+</div>
+{{- end }}

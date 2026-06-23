@@ -1,0 +1,62 @@
+{{- /* head.html — <head> 区块
+   从 Astro BaseLayout.astro 的 <head> 部分迁移
+   读取 site.Params 中的配色方案生成 CSS 变量
+*/ -}}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  {{- /* 页面标题：若有 section title 则追加站点标题 */}}
+  {{- $siteTitle := site.Title }}
+  {{- $pageTitle := .Title }}
+  <title>{{ if and $pageTitle (ne $pageTitle $siteTitle) }}{{ $pageTitle }} - {{ end }}{{ $siteTitle }}</title>
+
+  {{- /* SEO 元数据 */}}
+  {{- $desc := .Description | default (site.Params.meta.description | default "") }}
+  {{- $keywords := .Keywords | default (site.Params.meta.keywords | default "") }}
+  {{- if $desc }}<meta name="description" content="{{ $desc }}" />{{ end }}
+  {{- if $keywords }}<meta name="keywords" content="{{ $keywords }}" />{{ end }}
+
+  {{- /* Favicon */}}
+  {{- $icon := site.Params.siteIcon | default "/favicon.svg" }}
+  <link rel="icon" href="{{ $icon }}" type="image/svg+xml" />
+
+  {{- /* 主题样式 — 静态 CSS（零编译依赖，无需 Hugo Extended） */}}
+  <link rel="stylesheet" href="{{ "/css/theme.css" | relURL }}" />
+
+  {{- /* 可选：若使用 Hugo Extended，可启用以下 Hugo Pipes 编译 SCSS
+       {{- with resources.Get "sass/main.scss" | toCSS | minify | fingerprint }}
+       <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
+       {{- end }}
+  */ -}}
+
+  {{- /* CSS 变量 — 从 params.colors 动态注入 */}}
+  {{- $c := site.Params.colors | default dict }}
+  {{- $primary      := $c.primary      | default "#003366" }}
+  {{- $primaryLight := $c.primaryLight | default $primary }}
+  {{- $secondary    := $c.secondary    | default "#CC0000" }}
+  {{- $accent       := $c.accent       | default $secondary }}
+  {{- $bg           := $c.background   | default "#F5F5F5" }}
+  {{- $text         := $c.text         | default "#333333" }}
+  {{- $link         := $c.link         | default "#0000FF" }}
+  {{- $linkVisited  := $c.linkVisited  | default "#800080" }}
+  {{- $border       := $c.border       | default "#CCCCCC" }}
+  {{- $divider      := $c.divider      | default "#EEEEEE" }}
+  {{- $fontFamily   := $c.fontFamily   | default "宋体, SimSun, serif" }}
+  <style>
+    :root {
+      --color-primary: {{ $primary }};
+      --color-primary-light: {{ $primaryLight }};
+      --color-secondary: {{ $secondary }};
+      --color-accent: {{ $accent }};
+      --color-bg: {{ $bg }};
+      --color-text: {{ $text }};
+      --color-link: {{ $link }};
+      --color-link-visited: {{ $linkVisited }};
+      --color-border: {{ $border }};
+      --color-divider: {{ $divider }};
+      --font-body: {{ $fontFamily | safeCSS }};
+      --font-heading: "黑体", "SimHei", sans-serif;
+    }
+  </style>
+</head>

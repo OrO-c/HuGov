@@ -1,0 +1,83 @@
+{{- /* single.html — 文章详情页
+   从 Astro src/pages/[category]/[slug].astro 迁移
+   适用于 content/posts/{category}/{slug}.md 类型的文章
+   使用面包屑导航 + 文章元信息 + Markdown 正文
+*/ -}}
+
+{{ define "main" }}
+{{- $ui := site.Params.ui.article | default dict }}
+{{- $authorLabel := $ui.authorLabel | default "作者：" }}
+{{- $tagLabel := $ui.tagLabel | default "标签：" }}
+{{- $backText := $ui.backLinkText | default "← 返回列表" }}
+
+<div class="container page-section">
+  {{- /* 面包屑导航 — 从 .Section 获取分类名 */}}
+  {{- $cat := or .Params.category .Section }}
+  <nav class="breadcrumb">
+    <a href="{{ "/" | relLangURL }}">首页</a>
+    {{- if $cat }}
+    <span> &gt; </span>
+    <a href="{{ printf "/%s/" $cat | relLangURL }}">{{ $cat }}</a>
+    {{- end }}
+    <span> &gt; </span>
+    <span>{{ .Title }}</span>
+  </nav>
+
+  <article class="article">
+    {{- /* 文章标题 */}}
+    <h1 class="article-title">{{ .Title }}</h1>
+
+    {{- /* 文章元信息 */}}
+    <div class="article-meta">
+      <time class="article-date">{{ .Date.Format "2006-01-02" }}</time>
+      {{- with .Params.author }}
+      <span class="article-author">{{ $authorLabel }}{{ . }}</span>
+      {{- end }}
+    </div>
+
+    {{- /* 文章摘要 */}}
+    {{- with .Params.summary }}
+    <div class="article-summary">{{ . | markdownify }}</div>
+    {{- end }}
+
+    {{- /* 正文 */}}
+    <div class="article-content">
+      {{ .Content }}
+    </div>
+
+    {{- /* 标签 */}}
+    {{- with .Params.tags }}
+    <div class="article-tags">
+      <span class="tag-label">{{ $tagLabel }}</span>
+      {{- range . }}
+      <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="tag-link">{{ . }}</a>
+      {{- end }}
+    </div>
+    {{- end }}
+
+    {{- /* 返回链接 */}}
+    {{- $cat := or .Params.category .Section }}
+    <div class="article-back">
+      {{- if $cat }}
+      <a href="{{ printf "/%s/" $cat | relLangURL }}">{{ $backText }}</a>
+      {{- else }}
+      <a href="{{ "/" | relLangURL }}">{{ $backText }}</a>
+      {{- end }}
+    </div>
+  </article>
+
+  {{- /* 上一篇 / 下一篇 */}}
+  <nav class="article-pager">
+    <div class="pager-prev">
+      {{- with .PrevInSection }}
+      <a href="{{ .RelPermalink }}">← {{ .Title }}</a>
+      {{- end }}
+    </div>
+    <div class="pager-next">
+      {{- with .NextInSection }}
+      <a href="{{ .RelPermalink }}">{{ .Title }} →</a>
+      {{- end }}
+    </div>
+  </nav>
+</div>
+{{ end }}

@@ -1,0 +1,37 @@
+{{- /* nav.html — 导航菜单栏（含下拉二级菜单）
+   从 Astro Nav.astro 迁移
+   菜单数据: .Site.Menus.main (定义于 config/_default/hugo.toml)
+   高亮标识: site.Params.navHighlight
+*/ -}}
+
+{{- $highlightId := site.Params.navHighlight | default "" }}
+{{- $dropdownArrow := site.Params.ui.dropdownArrow | default "▼" }}
+{{- $menuItems := site.Menus.main }}
+
+{{- if $menuItems }}
+<nav class="nav">
+  <div class="container nav-inner">
+    {{- range $menuItems }}
+      {{- if .HasChildren }}
+      <div class="nav-item has-dropdown">
+        <a href="javascript:void(0)" class="nav-link{{ if eq .Identifier $highlightId }} highlight{{ end }}">
+          {{- .Name }}
+          <span class="nav-arrow">{{ $dropdownArrow }}</span>
+        </a>
+        <div class="dropdown-menu">
+          {{- range .Children }}
+          <a href="{{ .URL | relLangURL }}" target="{{ .Params.target | default "_self" }}" class="dropdown-item">{{ .Name }}</a>
+          {{- end }}
+        </div>
+      </div>
+      {{- else }}
+      <div class="nav-item">
+        <a href="{{ .URL | relLangURL }}" class="nav-link{{ if eq .Identifier $highlightId }} highlight{{ end }}">
+          {{- .Name }}
+        </a>
+      </div>
+      {{- end }}
+    {{- end }}
+  </div>
+</nav>
+{{- end }}

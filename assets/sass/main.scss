@@ -1,0 +1,552 @@
+/* ============================================================
+   Hugov 主题包 — 主样式文件
+   从 AstGov Astro 主题的 global.css 迁移
+   Tailwind 依赖已移除，改为纯 SCSS
+   所有颜色使用 CSS 变量（由 head.html 注入）
+   ============================================================ */
+
+/* ============================================================ */
+/* 基础重置                                   */
+/* ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 14px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body, "宋体", "SimSun", serif);
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--color-text, #333);
+  background-color: var(--color-bg, #F5F5F5);
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border: none;
+}
+
+a {
+  color: var(--color-link, #00F);
+  text-decoration: none;
+}
+a:visited {
+  color: var(--color-link-visited, #808);
+}
+a:hover {
+  color: var(--color-secondary, #C00);
+  text-decoration: underline;
+}
+
+ul, ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading, "黑体", "SimHei", sans-serif);
+  line-height: 1.5;
+  color: var(--color-text, #333);
+}
+h1 { font-size: 24px; }
+h2 { font-size: 20px; }
+h3 { font-size: 16px; }
+h4 { font-size: 14px; }
+
+/* ============================================================ */
+/* 容器                                       */
+/* ============================================================ */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* ============================================================ */
+/* 页面通用布局                                */
+/* ============================================================ */
+.page-section {
+  padding: 15px 0;
+  min-height: 400px;
+}
+
+/* 面包屑导航 */
+.breadcrumb {
+  font-size: 12px;
+  color: #666;
+  padding: 8px 0;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--color-divider, #EEE);
+}
+.breadcrumb a {
+  color: var(--color-link, #00F);
+}
+
+/* ============================================================ */
+/* 文章内容区 — prose 级排版                   */
+/* ============================================================ */
+.article {
+  background: #FFF;
+  border: 1px solid var(--color-border, #CCC);
+  padding: 30px 35px;
+}
+
+.article-content {
+  font-size: 1rem;
+  line-height: 1.9;
+  color: #2c2c2c;
+}
+.article-content p {
+  text-indent: 2em;
+  margin-bottom: 1em;
+}
+.article-content p:first-of-type {
+  margin-top: 0;
+}
+.article-content h2 {
+  border-left: 3px solid var(--color-secondary, #CC0000);
+  padding-left: 0.5rem;
+  margin: 1.5em 0 0.75em;
+  font-size: 20px;
+}
+.article-content h3 {
+  margin: 1.25em 0 0.5em;
+  font-size: 16px;
+}
+.article-content h1 {
+  text-align: center;
+  margin-bottom: 1em;
+}
+.article-content a {
+  color: var(--color-link, #0056B3);
+}
+.article-content a:hover {
+  color: var(--color-secondary, #B22222);
+}
+.article-content img {
+  border: 1px solid #e0e0e0;
+  padding: 4px;
+  background: #fafafa;
+  border-radius: 0;
+  margin: 1.5em auto;
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.article-content blockquote {
+  border-left: 3px solid var(--color-secondary, #B22222);
+  padding-left: 16px;
+  margin: 1em 0;
+  color: #555;
+  background: #FAFAFA;
+  padding: 10px 16px;
+}
+.article-content code {
+  color: #c7254e;
+  background: #F5F5F5;
+  padding: 2px 4px;
+  font-size: 0.9em;
+}
+.article-content pre {
+  background: #F5F5F5;
+  border: 1px solid #E0E0E0;
+  padding: 15px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 1em 0;
+}
+.article-content pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+.article-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+}
+.article-content th,
+.article-content td {
+  border: 1px solid var(--color-border, #CCC);
+  padding: 8px 12px;
+  text-align: left;
+}
+.article-content th {
+  background: #f0f4f8;
+  font-weight: bold;
+}
+.article-content hr {
+  border: none;
+  border-top: 1px solid #e8e8e8;
+  margin: 1.5em 0;
+}
+.article-content ul,
+.article-content ol {
+  list-style: initial;
+  padding-left: 2em;
+  margin-bottom: 1em;
+}
+.article-content li {
+  margin-bottom: 0.25em;
+}
+
+/* 活动卡片（自定义块） */
+.article-content .activity-card {
+  border-left: 3px solid var(--color-secondary, #CC0000);
+  padding-left: 16px;
+  margin-bottom: 1.5em;
+}
+.article-content .activity-card p {
+  text-indent: 0;
+}
+.article-content .activity-card h3 {
+  margin-bottom: 0.25em;
+}
+.article-content .activity-card .meta,
+.article-content .activity-card .source {
+  font-size: 0.875rem;
+  color: #888;
+  margin-bottom: 0;
+}
+.article-content .subtitle {
+  text-align: center;
+  color: #666;
+  text-indent: 0;
+}
+.article-content .footnote {
+  color: #666;
+  font-size: 0.875rem;
+  text-indent: 0;
+}
+
+/* ============================================================ */
+/* 文章详情页专用样式                          */
+/* ============================================================ */
+.article-title {
+  font-size: 22px;
+  text-align: center;
+  margin-bottom: 12px;
+  color: var(--color-primary, #003366);
+}
+
+.article-meta {
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--color-divider, #EEE);
+}
+.article-meta span {
+  margin: 0 8px;
+}
+.article-author::before {
+  content: "";
+}
+
+.article-summary {
+  background: #F8FAFC;
+  border-left: 3px solid var(--color-primary, #036);
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.7;
+}
+
+.article-tags {
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 1px solid var(--color-divider, #EEE);
+  font-size: 13px;
+}
+.tag-label {
+  font-weight: bold;
+  color: #666;
+  margin-right: 6px;
+}
+.tag-link {
+  display: inline-block;
+  padding: 2px 8px;
+  margin: 2px 3px;
+  background: #F0F4F8;
+  color: var(--color-primary, #036);
+  font-size: 12px;
+}
+.tag-link:hover {
+  background: var(--color-primary, #036);
+  color: #FFF;
+  text-decoration: none;
+}
+
+.article-back {
+  margin-top: 20px;
+  font-size: 13px;
+}
+.article-back a {
+  color: var(--color-link, #00F);
+}
+
+/* 上一篇/下一篇 */
+.article-pager {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  font-size: 13px;
+}
+.pager-prev a,
+.pager-next a {
+  color: var(--color-link, #00F);
+}
+.pager-next {
+  text-align: right;
+}
+
+/* ============================================================ */
+/* 列表页                                    */
+/* ============================================================ */
+.list-page-title {
+  font-size: 20px;
+  text-align: center;
+  color: var(--color-primary, #036);
+  margin-bottom: 20px;
+}
+.list-page-desc {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+.list-page-body {
+  /* 文章列表项见下方 */;
+}
+
+/* 分页 */
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid var(--color-divider, #EEE);
+}
+.page-link {
+  display: inline-block;
+  padding: 5px 12px;
+  margin: 0 3px;
+  font-size: 13px;
+  border: 1px solid var(--color-border, #CCC);
+  color: var(--color-text, #333);
+  background: #FFF;
+}
+.page-link:hover {
+  background: var(--color-primary, #036);
+  color: #FFF;
+  text-decoration: none;
+  border-color: var(--color-primary, #036);
+}
+.page-current {
+  background: var(--color-primary, #036);
+  color: #FFF;
+  border-color: var(--color-primary, #036);
+  font-weight: bold;
+}
+
+/* 标签云 */
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  padding: 20px 0;
+}
+.tag-cloud-item {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #F0F4F8;
+  border: 1px solid var(--color-border, #CCC);
+  color: var(--color-primary, #036);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.tag-cloud-item:hover {
+  background: var(--color-primary, #036);
+  color: #FFF;
+  text-decoration: none;
+}
+
+/* ============================================================ */
+/* 组件样式 — 模块标题、文章列表、两栏         */
+/* ============================================================ */
+.module-title {
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--color-primary, #036);
+  border-left: 3px solid var(--color-secondary, #C00);
+  padding-left: 8px;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.module-title .more-link {
+  float: right;
+  font-size: 12px;
+  font-weight: normal;
+  color: var(--color-link, #00F);
+  padding-top: 1px;
+}
+
+.module {
+  background: #FFF;
+  border: 1px solid var(--color-border, #CCC);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* 两栏布局 */
+.two-col {
+  display: flex;
+  gap: 10px;
+}
+.two-col .col-main {
+  flex: 0 0 70%;
+  max-width: 70%;
+}
+.two-col .col-side {
+  flex: 0 0 calc(30% - 10px);
+  max-width: calc(30% - 10px);
+}
+
+/* 文章列表项 */
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--color-primary, #036);
+}
+.list-header .module-title {
+  margin-bottom: 0;
+  border-left: none;
+  padding-left: 0;
+}
+.more-link {
+  font-size: 12px;
+  color: var(--color-link, #00F);
+  text-decoration: none;
+}
+.list-body {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.list-item {
+  border-bottom: 1px dashed var(--color-divider, #EEE);
+}
+.list-item:last-child {
+  border-bottom: none;
+}
+.list-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+  text-decoration: none;
+  color: var(--color-text, #333);
+}
+.list-link:hover {
+  text-decoration: none;
+}
+.list-date-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+.list-day {
+  font-size: 17px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  color: var(--color-secondary, #C00);
+}
+.list-month {
+  font-size: 10px;
+  font-family: Arial, sans-serif;
+  color: #888;
+}
+.list-text {
+  font-size: 13px;
+  font-family: "宋体", "SimSun", serif;
+  color: var(--color-link, #00F);
+  line-height: 1.4;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.list-link:hover .list-text {
+  color: var(--color-secondary, #C00);
+  text-decoration: underline;
+}
+
+/* ============================================================ */
+/* 字号切换 — 响应 HTML data-font-size 属性    */
+/* ============================================================ */
+html[data-font-size="small"] {
+  font-size: 12px;
+}
+html[data-font-size="small"] body {
+  font-size: 12px;
+}
+html[data-font-size="small"] h1 { font-size: 20px; }
+html[data-font-size="small"] h2 { font-size: 17px; }
+html[data-font-size="small"] h3 { font-size: 14px; }
+html[data-font-size="small"] .module-title { font-size: 13px; }
+
+html[data-font-size="large"] {
+  font-size: 16px;
+}
+html[data-font-size="large"] body {
+  font-size: 16px;
+}
+html[data-font-size="large"] h1 { font-size: 28px; }
+html[data-font-size="large"] h2 { font-size: 23px; }
+html[data-font-size="large"] h3 { font-size: 18px; }
+html[data-font-size="large"] .module-title { font-size: 17px; }
+
+/* ============================================================ */
+/* 响应式                                   */
+/* ============================================================ */
+@media (max-width: 1199px) {
+  .two-col {
+    flex-direction: column;
+  }
+  .two-col .col-main,
+  .two-col .col-side {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding: 0 10px;
+  }
+  .module {
+    padding: 8px;
+  }
+  .article {
+    padding: 15px 18px;
+  }
+}

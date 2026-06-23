@@ -1,0 +1,28 @@
+{{- /* countdown.html — 倒计时组件
+   从 Astro Countdown.astro 迁移
+   配置来源: params.countdown
+*/ -}}
+
+{{- $cd := site.Params.countdown | default dict }}
+{{- $title := $cd.title | default "距报名截止还有" }}
+{{- $targetDate := $cd.targetDate | default "" }}
+{{- $buttonLink := $cd.buttonLink | default "/signup" }}
+{{- $buttonText := $cd.buttonText | default "立即报名 →" }}
+{{- $labels := site.Params.ui.countdown.labels | default dict }}
+{{- $daysLabel := $labels.days | default "天" }}
+{{- $hoursLabel := $labels.hours | default "时" }}
+{{- $minutesLabel := $labels.minutes | default "分" }}
+{{- $secondsLabel := $labels.seconds | default "秒" }}
+
+{{- if $targetDate }}
+<div class="countdown-module">
+  <div class="countdown-title">{{ $title }}</div>
+  <div class="countdown-display" id="countdownDisplay" data-target="{{ $targetDate }}">
+    <span class="countdown-num" id="cdDays">00</span><span class="countdown-label">{{ $daysLabel }}</span>
+    <span class="countdown-num" id="cdHours">00</span><span class="countdown-label">{{ $hoursLabel }}</span>
+    <span class="countdown-num" id="cdMinutes">00</span><span class="countdown-label">{{ $minutesLabel }}</span>
+    <span class="countdown-num" id="cdSeconds">00</span><span class="countdown-label">{{ $secondsLabel }}</span>
+  </div>
+  <a href="{{ $buttonLink }}" class="countdown-btn">{{ $buttonText }}</a>
+</div>
+{{- end }}

@@ -1,0 +1,58 @@
+{{- /* list.html — 分类列表页
+   从 Astro src/pages/news/index.astro 迁移
+   适用于 /news/、/announce/ 等分类归档页
+   使用 Hugo 原生分页
+*/ -}}
+
+{{ define "main" }}
+<div class="container page-section">
+  {{- /* 面包屑 */}}
+  <nav class="breadcrumb">
+    <a href="{{ "/" | relLangURL }}">首页</a>
+    <span> &gt; </span>
+    <span>{{ .Title }}</span>
+  </nav>
+
+  <div class="article">
+    <h1 class="list-page-title">{{ .Title }}</h1>
+
+    {{- /* 分类描述（可选） */}}
+    {{- with .Content }}
+    <div class="list-page-desc">{{ . }}</div>
+    {{- end }}
+
+    {{- /* 文章列表 */}}
+    <div class="list-page-body">
+      {{- $pages := .Pages.ByDate.Reverse }}
+      {{- $paginator := .Paginate $pages }}
+
+      {{- range $paginator.Pages }}
+      <div class="list-item">
+        <a href="{{ .RelPermalink }}" class="list-link">
+          <span class="list-date-block">
+            <span class="list-day">{{ .Date.Format "02" }}</span>
+            <span class="list-month">{{ .Date.Format "01月" }}</span>
+          </span>
+          <span class="list-text">{{ .Title }}</span>
+        </a>
+      </div>
+      {{- end }}
+    </div>
+
+    {{- /* 分页 */}}
+    {{- if gt $paginator.TotalPages 1 }}
+    <div class="pagination">
+      {{- if $paginator.HasPrev }}
+        <a href="{{ $paginator.Prev.URL }}" class="page-link page-prev">← 上一页</a>
+      {{- end }}
+      {{- range $paginator.Pagers }}
+        <a href="{{ .URL }}" class="page-link{{ if eq . $paginator }} page-current{{ end }}">{{ .PageNumber }}</a>
+      {{- end }}
+      {{- if $paginator.HasNext }}
+        <a href="{{ $paginator.Next.URL }}" class="page-link page-next">下一页 →</a>
+      {{- end }}
+    </div>
+    {{- end }}
+  </div>
+</div>
+{{ end }}

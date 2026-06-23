@@ -1,0 +1,6 @@
+{{- /* scripts.html — 页面底部脚本
+   编译 assets/js/theme.js（轮播/倒计时/快速通道/字号切换）
+*/ -}}
+{{- with resources.Get "js/theme.js" | minify | fingerprint }}
+<script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+{{- end }}

@@ -1,0 +1,25 @@
+{{- /* terms.html — 标签云 / 分类归档页
+   适用于 /tags/ 等 taxonomy 列表
+*/ -}}
+
+{{ define "main" }}
+<div class="container page-section">
+  <nav class="breadcrumb">
+    <a href="{{ "/" | relLangURL }}">首页</a>
+    <span> &gt; </span>
+    <span>{{ .Title }}</span>
+  </nav>
+
+  <div class="article">
+    <h1 class="list-page-title">{{ .Title }}</h1>
+
+    <div class="tag-cloud">
+      {{- range .Data.Terms.Alphabetical }}
+      <a href="{{ .Page.RelPermalink }}" class="tag-cloud-item" style="font-size: {{ add 0.8 (mul .Count 0.15) }}rem;">
+        {{ .Page.Title }} ({{ .Count }})
+      </a>
+      {{- end }}
+    </div>
+  </div>
+</div>
+{{ end }}
