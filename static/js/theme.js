@@ -160,37 +160,6 @@
   }
 
   /* ========================================================== */
-  /* 5. 手机端菜单（汉堡按钮）                                */
-  /* ========================================================== */
-  function initMobileMenu() {
-    var toggle = document.getElementById('menuToggle');
-    var panel = document.getElementById('mobilePanel');
-    var overlay = document.getElementById('mobileOverlay');
-    if (!toggle || !panel || !overlay) return;
-
-    function open() {
-      panel.classList.add('open');
-      overlay.classList.add('open');
-      toggle.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function close() {
-      panel.classList.remove('open');
-      overlay.classList.remove('open');
-      toggle.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    toggle.addEventListener('click', function () {
-      if (panel.classList.contains('open')) { close(); }
-      else { open(); }
-    });
-
-    overlay.addEventListener('click', close);
-  }
-
-  /* ========================================================== */
   /* 初始化所有模块                                            */
   /* ========================================================== */
   if (document.readyState === 'loading') {
@@ -199,14 +168,12 @@
       initBanner();
       initCountdown();
       initQuickLinks();
-      initMobileMenu();
     });
   } else {
     initFontSize();
     initBanner();
     initCountdown();
     initQuickLinks();
-    initMobileMenu();
   }
 
 })();

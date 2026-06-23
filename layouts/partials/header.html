@@ -2,7 +2,8 @@
 {{- $topBar := site.Params.topBar | default dict }}
 {{- $enabled := $topBar.enabled | default true }}
 
-<div class="toolbar" id="toolbar">
+{{- if $enabled }}
+<div class="toolbar">
   <div class="container toolbar-inner">
     <div class="toolbar-left">
       {{- range $topBar.quickLinks }}
@@ -30,8 +31,8 @@
     </div>
   </div>
 </div>
+{{- end }}
 
-{{- /* 站点标题区 */}}
 {{- $siteName := site.Title }}
 {{- $siteSubtitle := site.Params.siteSubtitle }}
 {{- $siteLogo := site.Params.siteLogo }}
@@ -48,54 +49,5 @@
       <p class="site-subtitle">{{ $siteSubtitle }}</p>
       {{- end }}
     </div>
-    {{- /* 手机端菜单按钮 */}}
-    <button class="menu-toggle" id="menuToggle" aria-label="菜单">
-      <span></span><span></span><span></span>
-    </button>
   </div>
 </div>
-
-{{- /* 手机端滑出菜单面板 */}}
-<div class="mobile-panel" id="mobilePanel">
-  <div class="mobile-panel-inner">
-    {{- /* 主导航（手机端）*/}}
-    <div class="mobile-section">
-      <div class="mobile-section-title">导航菜单</div>
-      {{- range .Site.Menus.main }}
-        {{- if .HasChildren }}
-        <div class="mobile-nav-group">
-          <div class="mobile-nav-parent">{{ .Name }}</div>
-          {{- range .Children }}
-          <a href="{{ .URL | relLangURL }}" class="mobile-link mobile-link-sub">{{ .Name }}</a>
-          {{- end }}
-        </div>
-        {{- else }}
-        <a href="{{ .URL | relLangURL }}" class="mobile-link">{{ .Name }}</a>
-        {{- end }}
-      {{- end }}
-    </div>
-
-    {{- if $enabled }}
-    <div class="mobile-section">
-      <div class="mobile-section-title">快捷入口</div>
-      {{- range $topBar.quickLinks }}
-        <a href="{{ .url }}" target="{{ .target | default "_self" }}" class="mobile-link">{{ .text }}</a>
-      {{- end }}
-      {{- range $topBar.rightLinks }}
-        <a href="{{ .url }}" target="{{ .target | default "_self" }}" class="mobile-link">{{ .text }}</a>
-      {{- end }}
-    </div>
-    {{- end }}
-
-    {{- $fl := site.Params.ui.fontSizeLabels | default dict }}
-    <div class="mobile-section">
-      <div class="mobile-section-title">字号</div>
-      <div class="mobile-font-size">
-        <a href="#" class="font-btn font-small" data-size="small">{{ $fl.small | default "小" }}</a>
-        <a href="#" class="font-btn font-medium" data-size="medium">{{ $fl.medium | default "中" }}</a>
-        <a href="#" class="font-btn font-large" data-size="large">{{ $fl.large | default "大" }}</a>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="mobile-overlay" id="mobileOverlay"></div>
