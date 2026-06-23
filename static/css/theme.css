@@ -738,10 +738,10 @@ html[data-font-size="large"] .module-title { font-size: 17px; }
 }
 
 .mobile-panel {
-  display: none;
+  display: block;
   position: fixed;
   top: 0;
-  right: -280px;
+  right: -100%;
   width: 280px;
   height: 100%;
   background: #FFF;
@@ -749,8 +749,9 @@ html[data-font-size="large"] .module-title { font-size: 17px; }
   transition: right 0.25s ease;
   box-shadow: -2px 0 8px rgba(0,0,0,.1);
   overflow-y: auto;
+  visibility: hidden;
 }
-.mobile-panel.open { right: 0; }
+.mobile-panel.open { right: 0; visibility: visible; }
 .mobile-panel-inner { padding: 16px; }
 .mobile-section { margin-bottom: 16px; }
 .mobile-section-title {
