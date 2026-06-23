@@ -287,19 +287,45 @@ h4 { font-size: 14px; }
   color: var(--color-link, #00F);
 }
 
-/* 上一篇/下一篇 */
+/* 上一篇/下一篇 — 政府风格 */
 .article-pager {
+  margin-top: 20px;
+  border: 1px solid var(--color-border, #CCC);
+  border-bottom: none;
+}
+.pager-item {
+  border-bottom: 1px solid var(--color-divider, #EEE);
+}
+.pager-item a {
   display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
+  align-items: flex-start;
+  padding: 10px 14px;
+  color: var(--color-text, #333);
+  text-decoration: none;
   font-size: 13px;
+  line-height: 1.6;
+  transition: background 0.12s;
 }
-.pager-prev a,
-.pager-next a {
+.pager-item a:hover {
+  background: #F5F5F5;
+  text-decoration: none;
+}
+.pager-label {
+  color: var(--color-primary, #003366);
+  font-weight: bold;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-right: 6px;
+}
+.pager-title {
   color: var(--color-link, #00F);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.pager-next {
-  text-align: right;
+.pager-item a:hover .pager-title {
+  color: var(--color-secondary, #C00);
+  text-decoration: underline;
 }
 
 /* ============================================================ */
