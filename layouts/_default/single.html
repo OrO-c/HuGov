@@ -24,6 +24,13 @@
   </nav>
 
   <article class="article">
+    {{- /* 文章封面图 */}}
+    {{- with .Params.image }}
+    <div class="article-cover">
+      <img src="{{ . | relURL }}" alt="{{ $.Title }}" />
+    </div>
+    {{- end }}
+
     {{- /* 文章标题 */}}
     <h1 class="article-title">{{ .Title }}</h1>
 

@@ -214,6 +214,17 @@ h4 { font-size: 14px; }
 /* ============================================================ */
 /* 文章详情页专用样式                          */
 /* ============================================================ */
+.article-cover {
+  margin-bottom: 20px;
+  text-align: center;
+}
+.article-cover img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--color-border, #CCC);
+  padding: 4px;
+  background: #FAFAFA;
+}
 .article-title {
   font-size: 22px;
   text-align: center;
