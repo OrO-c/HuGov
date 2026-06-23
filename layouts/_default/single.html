@@ -52,6 +52,43 @@
       {{ .Content }}
     </div>
 
+    {{- /* 审核信息（政府/高校风格）*/}}
+    {{- $writer := .Params.writer }}
+    {{- $photographer := .Params.photographer }}
+    {{- $reviewers := .Params.reviewers }}
+    {{- $source := .Params.source }}
+    {{- if or $writer $photographer $reviewers $source }}
+    <div class="article-review">
+      <table class="review-table">
+        {{- with $writer }}
+        <tr><td class="review-label">责任编辑：</td><td class="review-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with $photographer }}
+        <tr><td class="review-label">摄　　影：</td><td class="review-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with $reviewers }}
+        <tr>
+          <td class="review-label">审　　核：</td>
+          <td class="review-value">
+            {{- $len := len . }}
+            {{- range $i, $r := . }}
+              {{- if eq $len 3 }}
+                {{- if eq $i 0 }}一审{{ else if eq $i 1 }}二审{{ else }}三审{{ end }}：{{ $r }}
+                {{- if lt $i (sub $len 1) }}<span class="review-sep">|</span>{{ end }}
+              {{- else }}
+                {{ $r }}{{ if lt $i (sub $len 1) }}<span class="review-sep">|</span>{{ end }}
+              {{- end }}
+            {{- end }}
+          </td>
+        </tr>
+        {{- end }}
+        {{- with $source }}
+        <tr><td class="review-label">来　　源：</td><td class="review-value">{{ . }}</td></tr>
+        {{- end }}
+      </table>
+    </div>
+    {{- end }}
+
     {{- /* 标签 */}}
     {{- with .Params.tags }}
     <div class="article-tags">
