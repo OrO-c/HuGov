@@ -1,9 +1,5 @@
 {{- /* banner.html — 轮播图
-   从 Astro Banner.astro 迁移
-   数据来源: content/banner/ 下的页面
-   排序: .Weight
-   默认高度: params.bannerHeight | 360
-   自动播放间隔在前端 JS 中控制
+   图片经 partial "image.html" 处理，首图 LCP 优化
 */ -}}
 
 {{- $bannerSection := .Site.GetPage "/banner" }}
@@ -16,13 +12,15 @@
 {{- $height := site.Params.bannerHeight | default 360 }}
 {{- $prevText := site.Params.ui.banner.prevText | default "‹" }}
 {{- $nextText := site.Params.ui.banner.nextText | default "›" }}
-<div class="banner" id="banner" style="--banner-height: {{ $height }}px">
+<div class="banner" id="banner" style="--banner-height: {{ $height }}px; height:{{ $height }}px;">
   <div class="banner-slides" id="bannerSlides">
-    {{- range $i, $img := $images }}
+    {{- range $i, $p := $images }}
     <div class="banner-slide" data-index="{{ $i }}">
-      {{- if $img.Params.link }}<a href="{{ $img.Params.link }}">{{ end }}
-      <img src="{{ $img.Params.src | relURL }}" alt="{{ $img.Params.alt }}"{{ with $img.Params.width }} width="{{ . }}"{{ end }}{{ with $img.Params.height }} height="{{ . }}"{{ end }} />
-      {{- if $img.Params.link }}</a>{{ end }}
+      {{- $imgCtx := dict "src" $p.Params.src "alt" $p.Params.src "class" "banner-slide-img" "lazy" (ne $i 0) "fetchpriority" (cond (eq $i 0) "high" "auto") }}
+      {{- if $p.Params.link }}
+        {{- $imgCtx = merge $imgCtx (dict "link" $p.Params.link) }}
+      {{- end }}
+      {{- partial "image.html" $imgCtx }}
     </div>
     {{- end }}
   </div>

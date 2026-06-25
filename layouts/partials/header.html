@@ -40,7 +40,7 @@
   <div class="container header-main-inner">
     {{- if $siteLogo }}
     <a href="{{ "/" | relLangURL }}" class="logo-link">
-      <img src="{{ $siteLogo | relURL }}" alt="{{ $siteName }}" class="logo-img" />
+      {{ partial "image.html" (dict "src" $siteLogo "alt" $siteName "class" "logo-img" "lazy" false) }}
     </a>
     {{- end }}
     <div class="site-title-group">

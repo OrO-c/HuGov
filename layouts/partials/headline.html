@@ -1,7 +1,5 @@
 {{- /* headline.html — 头条图片卡片网格
-   从 Astro Headline.astro 迁移
-   数据来源: content/headline/ 下的页面
-   排序: .Weight
+   图片经 partial "image.html" 处理
 */ -}}
 
 {{- $headlineSection := .Site.GetPage "/headline" }}
@@ -18,10 +16,10 @@
       <article class="headline-card">
         <a href="{{ .Params.link | default "#" }}">
           <div class="card-img">
-            <img src="{{ .Params.src | relURL }}" alt="{{ .Params.alt }}"{{ with .Params.width }} width="{{ . }}"{{ end }}{{ with .Params.height }} height="{{ . }}"{{ end }} />
+            {{ partial "image.html" (dict "src" .Params.src "alt" .Params.alt "class" "card-img-el" "lazy" true) }}
           </div>
           <div class="card-body">
-            <h3 class="card-title">{{ .Params.title }}</h3>
+            <h2 class="card-title">{{ .Params.title }}</h2>
           </div>
         </a>
       </article>

@@ -27,7 +27,7 @@
     {{- /* 文章封面图 */}}
     {{- with .Params.image }}
     <div class="article-cover">
-      <img src="{{ . | relURL }}" alt="{{ $.Title }}" />
+      {{ partial "image.html" (dict "src" . "alt" $.Title "class" "article-cover-img" "lazy" true "fetchpriority" "high") }}
     </div>
     {{- end }}
 

@@ -464,7 +464,7 @@ h4 { font-size: 14px; }
 .site-name { font-size: 24px; font-weight: bold; line-height: 1.3; margin: 0; }
 .site-name a { color: var(--color-primary, #003366); text-decoration: none; font-family: "黑体", "SimHei", sans-serif; }
 .site-name a:hover { color: var(--color-secondary, #CC0000); }
-.site-subtitle { font-size: 13px; color: #888; margin-top: 2px; font-family: "宋体", "SimSun", serif; }
+.site-subtitle { font-size: 13px; color: #555; margin-top: 2px; font-family: "宋体", "SimSun", serif; }
 
 /* ============================================================ */
 /* 组件样式 — 导航菜单（响应式）            */
@@ -599,7 +599,7 @@ h4 { font-size: 14px; }
 .banner-slides { position: relative; }
 .banner-slide { display: none; }
 .banner-slide:first-child { display: block; }
-.banner-slide img { display: block; width: 100%; height: var(--banner-height, 360px); object-fit: cover; }
+.banner-slide-img { display: block; width: 100%; height: var(--banner-height, 360px); object-fit: cover; }
 .banner-btn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(0,0,0,.35); color: #FFF; border: none; font-size: 36px; line-height: 1; padding: 8px 14px; cursor: pointer; font-family: Arial,sans-serif; transition: background .2s; border-radius: 0; }
 .banner-btn:hover { background: rgba(0,0,0,.6); }
 .banner-prev { left: 10px; }
@@ -617,9 +617,9 @@ h4 { font-size: 14px; }
 .headline-card:hover { border-color: var(--color-secondary, #C00); }
 .headline-card a { text-decoration: none; color: inherit; display: block; }
 .card-img { width: 100%; height: 150px; overflow: hidden; border-bottom: 1px solid var(--color-divider, #EEE); }
-.card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card-img-el { width: 100%; height: 100%; object-fit: cover; display: block; }
 .card-body { padding: 8px 10px 10px; }
-.card-title { font-size: 13px; font-weight: bold; font-family: "黑体","SimHei",sans-serif; color: var(--color-text, #333); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0 0 4px; }
+h2.card-title { font-size: 13px; font-weight: bold; font-family: "黑体","SimHei",sans-serif; color: var(--color-text, #333); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0 0 4px; }
 .headline-card:hover .card-title { color: var(--color-secondary, #C00); }
 .card-date { font-size: 12px; color: #999; font-family: Arial,sans-serif; }
 
@@ -661,7 +661,7 @@ h4 { font-size: 14px; }
 /* 组件样式 — 页脚                           */
 /* ============================================================ */
 .footer { background: var(--color-primary, #003366); color: #EEE; padding: 10px 0; font-size: 12px; line-height: 1.6; font-family: "宋体","SimSun",serif; }
-.footer a { color: #E8F0FF; text-decoration: none; }
+.footer a { color: #E8F0FF; text-decoration: none; display:inline-flex; align-items:center; padding:8px 12px; min-height:44px; }
 .footer a:hover { color: #FFF; text-decoration: underline; }
 .footer-bar { text-align: center; margin-bottom: 4px; }
 .footer-org { color: #FFF; font-weight: bold; }

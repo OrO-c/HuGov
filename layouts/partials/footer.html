@@ -56,7 +56,7 @@
     <div class="footer-qr">
       {{- range $qrCodes }}
       <div class="qr-item">
-        <img src="{{ .src | relURL }}" alt="{{ .alt }}" class="qr-img" />
+        {{ partial "image.html" (dict "src" .src "alt" .alt "class" "qr-img" "lazy" true) }}
         <span class="qr-alt">{{ .alt }}</span>
       </div>
       {{- end }}

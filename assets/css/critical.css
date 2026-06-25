@@ -30,7 +30,7 @@ h1{font-size:24px}h2{font-size:20px}h3{font-size:16px}
 .logo-img{max-height:64px;width:auto;display:block}
 .site-name{font-size:24px;font-weight:bold;line-height:1.3;margin:0}
 .site-name a{color:var(--color-primary,#003366);text-decoration:none;font-family:"黑体","SimHei",sans-serif}
-.site-subtitle{font-size:13px;color:#888;margin-top:2px;font-family:"宋体","SimSun",serif}
+.site-subtitle{font-size:13px;color:#555;margin-top:2px;font-family:"宋体","SimSun",serif}
 
 /* 导航栏 */
 .nav{background:var(--color-secondary,#CC0000);position:relative;z-index:100}
