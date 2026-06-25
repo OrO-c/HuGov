@@ -66,5 +66,10 @@ h1{font-size:24px}h2{font-size:20px}h3{font-size:16px}
   .nav-mobile-font .font-btn{color:#F0F0F0;font-size:12px;padding:4px 10px;border:1px solid rgba(255,255,255,.2);cursor:pointer}
 }
 
+/* 防CLS */
+.banner{aspect-ratio:1200/400;overflow:hidden;background:var(--color-primary,#003366)}
+.card-img{aspect-ratio:400/250;overflow:hidden}
+.article-cover{aspect-ratio:1200/600;overflow:hidden}
+
 /* 骨架屏 */
 html{background:var(--color-bg,#F5F5F5)}

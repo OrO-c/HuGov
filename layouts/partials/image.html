@@ -1,10 +1,14 @@
-{{- /* image.html — 渐进增强图片
-   用法:
-     LCP图: {{ partial "image.html" (dict "src" "images/hero.jpg" "alt" "主视觉" "lazy" false "fetchpriority" "high") }}
-     普通图: {{ partial "image.html" (dict "src" "images/news/001.jpg" "alt" "新闻") }}
-     带类名: {{ partial "image.html" (dict "src" "..." "alt" "..." "class" "banner-img") }}
-   浏览器策略: AVIF(120+) → WebP(80+) → 原始(兜底)
-   三种响应式尺寸: 400w 800w 1200w, 自动防CLS
+{{- /* image.html — 图片处理 partial
+   resources.Get 从 assets/ 找图片，找不到时 fallback 输出原始 src
+   找到时: WebP + 3种srcset尺寸 + picture降级 + width/height
+   找不到时: 输出原始 img + loading/fetchpriority + 靠CSS aspect-ratio 防CLS
+   参数:
+     src  — 图片路径 (如 "/images/gate.jpg" 或 "images/gate.jpg")
+     alt  — 替代文本
+     class — CSS类名
+     lazy — 是否懒加载 (bool, 默认true)
+     fetchpriority — 优先级 ("high" / "auto", 默认"auto")
+     link — 外层包裹链接 (可选)
 */ -}}
 {{- $src := .src }}
 {{- $alt := .alt | default "图片" }}
@@ -13,55 +17,51 @@
 {{- $fp := .fetchpriority | default "auto" }}
 {{- $link := .link | default "" }}
 
-{{- $img := "" }}
-{{- if (hasPrefix $src "/") }}
-  {{- $img = resources.Get (strings.TrimPrefix "/" $src) }}
-{{- else }}
-  {{- $img = resources.Get $src }}
+{{- /* 从 assets/ 找图 */}}
+{{- $cleanSrc := $src }}
+{{- if hasPrefix $cleanSrc "/" }}
+  {{- $cleanSrc = strings.TrimPrefix "/" $cleanSrc }}
 {{- end }}
+{{- $img := resources.Get $cleanSrc }}
 
-{{- if not $img }}
-  {{- warnf "图片不存在: %s" $src }}
-  {{- if $link }}<a href="{{ $link }}">{{ end }}
-  <img src="{{ $src | relURL }}" alt="{{ $alt }}" class="{{ $class }}" loading="{{ if $lazy }}lazy{{ else }}eager{{ end }}">
-  {{- if $link }}</a>{{ end }}
-{{- else }}
+{{- if $img }}
+  {{- /* 资源存在 → 全量优化 */}}
   {{- $w := $img.Width }}
   {{- $h := $img.Height }}
-  {{- $webp := "" }}{{ $avif := "" }}
   {{- $srcsetItems := slice }}
-  {{- $avifSrcsetItems := slice }}
   {{- $sizesList := slice "400" "800" "1200" }}
   {{- range $sizesList }}
     {{- $sw := . | int }}
     {{- if ge $w $sw }}
       {{- $webpResized := $img.Resize (printf "%dx webp" $sw) }}
       {{- $srcsetItems = $srcsetItems | append (printf "%s %sw" $webpResized.RelPermalink $sw) }}
-      {{- if ge $w (mul $sw 2) }}
-        {{- $avifResized := $img.Resize (printf "%dx avif" $sw) }}
-        {{- $avifSrcsetItems = $avifSrcsetItems | append (printf "%s %sw" $avifResized.RelPermalink $sw) }}
-      {{- end }}
     {{- end }}
   {{- end }}
-  {{- /* 全尺寸源 */}}
   {{- $fullWebp := $img.Resize (printf "%dx%d webp" $w $h) }}
   {{- $fullAvif := $img.Resize (printf "%dx%d avif" $w $h) }}
 
-  {{- if $link }}<a href="{{ $link }}">{{ end }}
+  {{- if $link }}<a href="{{ $link }}">{{ end -}}
   <picture>
-    {{- if $avifSrcsetItems }}
-    <source srcset="{{ delimit $avifSrcsetItems ", " }}" sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" type="image/avif">
-    {{- else }}
     <source srcset="{{ $fullAvif.RelPermalink }}" type="image/avif">
+    {{- if $srcsetItems }}
+    <source srcset="{{ delimit $srcsetItems ", " }}" sizes="(max-width:600px) 400px, (max-width:1024px) 800px, 1200px" type="image/webp">
+    {{- else }}
+    <source srcset="{{ $fullWebp.RelPermalink }}" type="image/webp">
     {{- end }}
-    <source srcset="{{ delimit $srcsetItems ", " }}" sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" type="image/webp">
-    <img src="{{ $img.RelPermalink }}"
-         srcset="{{ delimit $srcsetItems ", " }}"
-         sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px"
+    <img src="{{ $fullWebp.RelPermalink }}"
+         {{- if $srcsetItems }} srcset="{{ delimit $srcsetItems ", " }}" sizes="(max-width:600px) 400px, (max-width:1024px) 800px, 1200px"{{ end }}
          width="{{ $w }}" height="{{ $h }}"
          alt="{{ $alt }}" class="{{ $class }}"
          loading="{{ if $lazy }}lazy{{ else }}eager{{ end }}"
          fetchpriority="{{ $fp }}">
   </picture>
-  {{- if $link }}</a>{{ end }}
+  {{- if $link }}</a>{{ end -}}
+
+{{- else }}
+  {{- /* 资源不存在 → fallback */}}
+  {{- if $link }}<a href="{{ $link }}">{{ end -}}
+  <img src="{{ $src | relURL }}" alt="{{ $alt }}" class="{{ $class }}"
+       loading="{{ if $lazy }}lazy{{ else }}eager{{ end }}"
+       fetchpriority="{{ $fp }}">
+  {{- if $link }}</a>{{ end -}}
 {{- end -}}

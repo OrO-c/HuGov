@@ -16,7 +16,7 @@
       <article class="headline-card">
         <a href="{{ .Params.link | default "#" }}">
           <div class="card-img">
-            {{ partial "image.html" (dict "src" .Params.src "alt" .Params.alt "class" "card-img-el" "lazy" true) }}
+            {{ partial "image.html" (dict "src" .Params.src "alt" .Params.alt "class" "card-img-el" "lazy" false) }}
           </div>
           <div class="card-body">
             <h2 class="card-title">{{ .Params.title }}</h2>
