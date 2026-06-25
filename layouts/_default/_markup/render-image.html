@@ -1,0 +1,9 @@
+{{- /* render-image.html — Markdown 图片渲染钩子
+   拦截所有 ![alt](src) 语法，输出 WebP
+   上下文: .Destination=URL, .Text=alt, .Title=title
+*/ -}}
+{{- partial "image.html" (dict
+  "src" .Destination
+  "alt" .Text
+  "lazy" true
+) -}}

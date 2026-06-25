@@ -1,0 +1,10 @@
+{{- /* 短码: {{< img src="/images/xxx.jpg" alt="说明" class="可选" lazy="true/false" fetchpriority="high/auto" >}}
+   委托给 partial "image.html" 处理，输出 WebP
+*/ -}}
+{{- partial "image.html" (dict
+  "src" (.Get "src")
+  "alt" (.Get "alt" | default "图片")
+  "class" (.Get "class" | default "")
+  "lazy" (ne (.Get "lazy" | default "true") "false")
+  "fetchpriority" (.Get "fetchpriority" | default "auto")
+) -}}
