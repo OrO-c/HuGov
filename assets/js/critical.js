@@ -19,7 +19,8 @@
       navMenu.classList.toggle('open');
       navToggle.classList.toggle('active');
     });
-    navMenu.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeNav));
+    // 点击可导航的链接关闭菜单（排除下拉父级）
+    navMenu.querySelectorAll('a:not(.has-sub)').forEach((a) => a.addEventListener('click', closeNav));
     document.addEventListener('click', (e) => {
       if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) closeNav();
     });
