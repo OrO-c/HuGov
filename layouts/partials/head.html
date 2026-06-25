@@ -28,9 +28,8 @@
   {{- $critical := resources.Get "css/critical.css" | resources.Minify }}
   <style>{{ $critical.Content | safeCSS }}</style>
 
-  {{- /* 异步加载完整主题CSS */}}
-  <link rel="preload" href="{{ "/css/theme.css" | relURL }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="{{ "/css/theme.css" | relURL }}"></noscript>
+  {{- /* 完整主题CSS（同步加载防FOUC，浏览器缓存后续命中）*/}}
+  <link rel="stylesheet" href="{{ "/css/theme.css" | relURL }}">
 
   {{- /* CSS 变量 — 从 params.colors 动态注入 */}}
   {{- $c := site.Params.colors | default dict }}

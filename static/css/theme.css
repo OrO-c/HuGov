@@ -597,7 +597,7 @@ h4 { font-size: 14px; }
 /* ============================================================ */
 /* 组件样式 — 轮播图                         */
 /* ============================================================ */
-.banner { position: relative; width: 100%; overflow: hidden; background: var(--color-primary, #003366); aspect-ratio: 1200 / 400; }
+.banner { position: relative; width: 100%; overflow: hidden; background: var(--color-primary, #003366); aspect-ratio: 16 / 9; }
 .banner-slides { position: relative; }
 .banner-slide { display: none; }
 .banner-slide:first-child { display: block; }
