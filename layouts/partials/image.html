@@ -1,14 +1,7 @@
 {{- /* image.html — 图片处理 partial
    1. resources.Get from assets/ → WebP + srcset + width/height
-   2. 找不到 → fallback 原始 <img> (至少带 loading/fetchpriority)
-   要让 WebP 生效，图片需放在 assets/images/ 下而非 static/images/
-   参数:
-     src  — 图片路径 (如 "/images/gate.jpg" 或 "images/gate.jpg")
-     alt  — 替代文本
-     class — CSS 类名
-     lazy — 是否懒加载 (默认 true)
-     fetchpriority — 优先级 ("high" / "auto", 默认 "auto")
-     link — 外层包裹链接 (可选)
+   2. 找不到 → fallback 原始 <img>
+   每个 resize 结果判 nil，失败时降级
 */ -}}
 {{- $src := .src }}
 {{- $alt := .alt | default "图片" }}
@@ -16,36 +9,43 @@
 {{- $lazy := .lazy | default true }}
 {{- $fp := .fetchpriority | default "auto" }}
 {{- $link := .link | default "" }}
-
-{{- /* 提取 assets/ 相对路径 */}}
 {{- $cleanSrc := trim $src "/" }}
-
-{{- /* resources.Get 查找 assets/ 下的图片 */}}
 {{- $img := resources.Get $cleanSrc }}
 
 {{- if $img }}
-  {{- /* 找到 → WebP 全量优化 */}}
-  {{- $w := $img.Width }}
-  {{- $h := $img.Height }}
+  {{- $w := $img.Width }}{{ $h := $img.Height }}
   {{- $srcsetItems := slice }}
   {{- range slice "400" "800" "1200" }}
     {{- $sw := . | int }}
-    {{- if ge $w $sw }}
-      {{- $wResized := $img.Resize (printf "%dx webp" $sw) }}
-      {{- $srcsetItems = $srcsetItems | append (printf "%s %sw" $wResized.RelPermalink $sw) }}
+    {{- if and (ge $w $sw) $img }}
+      {{- $resized := $img.Resize (printf "%dx webp" $sw) }}
+      {{- if $resized }}
+        {{- $srcsetItems = $srcsetItems | append (printf "%s %sw" $resized.RelPermalink $sw) }}
+      {{- end }}
     {{- end }}
   {{- end }}
   {{- $fullWebp := $img.Resize (printf "%dx%d webp" $w $h) }}
   {{- $fullAvif := $img.Resize (printf "%dx%d avif" $w $h) }}
+
   {{- if $link }}<a href="{{ $link }}">{{ end }}
+
+  {{- /* 有 WebP → picture 渐进增强 */}}
+  {{- if $fullWebp }}
   <picture>
+    {{- if $fullAvif }}
     <source srcset="{{ $fullAvif.RelPermalink }}" type="image/avif">
+    {{- end }}
     <source srcset="{{ if $srcsetItems }}{{ delimit $srcsetItems ", " }}{{ else }}{{ $fullWebp.RelPermalink }}{{ end }}" sizes="(max-width:600px) 400px, (max-width:1024px) 800px, 1200px" type="image/webp">
     <img src="{{ $fullWebp.RelPermalink }}"{{ if $srcsetItems }} srcset="{{ delimit $srcsetItems ", " }}" sizes="(max-width:600px) 400px, (max-width:1024px) 800px, 1200px"{{ end }} width="{{ $w }}" height="{{ $h }}" alt="{{ $alt }}" class="{{ $class }}" loading="{{ if $lazy }}lazy{{ else }}eager{{ end }}" fetchpriority="{{ $fp }}">
   </picture>
+  {{- else }}
+    {{- /* WebP 生成失败 → 直接输出原图 */}}
+  <img src="{{ $img.RelPermalink }}" width="{{ $w }}" height="{{ $h }}" alt="{{ $alt }}" class="{{ $class }}" loading="{{ if $lazy }}lazy{{ else }}eager{{ end }}" fetchpriority="{{ $fp }}">
+  {{- end }}
+
   {{- if $link }}</a>{{ end }}
+
 {{- else }}
-  {{- /* 找不到 → fallback 原始路径 */}}
   {{- if $link }}<a href="{{ $link }}">{{ end }}
   <img src="{{ $src | relURL }}" alt="{{ $alt }}" class="{{ $class }}" loading="{{ if $lazy }}lazy{{ else }}eager{{ end }}" fetchpriority="{{ $fp }}">
   {{- if $link }}</a>{{ end }}
