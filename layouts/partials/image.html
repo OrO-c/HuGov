@@ -1,9 +1,9 @@
 {{- /* image.html — 图片处理 partial
-   resources.Get 从 assets/ 及 static/ 两处找图:
-   - assets/ 中找到 → WebP + srcset + width/height 全量优化
-   - 找不到 → fallback 直接输出原始 img（至少带 loading/fetchpriority）
+   1. resources.Get from assets/ → WebP + srcset + width/height
+   2. 找不到 → fallback 原始 <img> (至少带 loading/fetchpriority)
+   要让 WebP 生效，图片需放在 assets/images/ 下而非 static/images/
    参数:
-     src  — 图片路径
+     src  — 图片路径 (如 "/images/gate.jpg" 或 "images/gate.jpg")
      alt  — 替代文本
      class — CSS 类名
      lazy — 是否懒加载 (默认 true)
@@ -17,66 +17,36 @@
 {{- $fp := .fetchpriority | default "auto" }}
 {{- $link := .link | default "" }}
 
-{{- /* 多路径尝试找图 */}}
-{{- $img := "" }}
-{{- $tryPaths := slice }}
-{{- if hasPrefix $src "/" }}
-  {{- /* 绝对路径如 /images/gate.jpg */}}
-  {{- $withoutSlash := strings.TrimPrefix "/" $src }}
-  {{- $tryPaths = $tryPaths | append $withoutSlash }}
-  {{- /* 尝试去掉 /images/ 前缀，适配 assets/ 根目录 */}}
-  {{- if hasPrefix $src "/images/" }}
-    {{- $tryPaths = $tryPaths | append (strings.TrimPrefix "/images/" $src) }}
-  {{- end }}
-{{- else }}
-  {{- /* 相对路径如 gate.jpg */}}
-  {{- $tryPaths = $tryPaths | append $src }}
-  {{- /* 尝试加上 images/ 前缀，适配 assets/images/ */}}
-  {{- $tryPaths = $tryPaths | append (printf "images/%s" $src) }}
-{{- end }}
-{{- range $tryPaths }}
-  {{- $candidate := resources.Get . }}
-  {{- if $candidate }}{{ $img = $candidate }}{{ end }}
-{{- end }}
+{{- /* 提取 assets/ 相对路径 */}}
+{{- $cleanSrc := trim $src "/" }}
+
+{{- /* resources.Get 查找 assets/ 下的图片 */}}
+{{- $img := resources.Get $cleanSrc }}
 
 {{- if $img }}
-  {{- /* 找到 → WebP + srcset + width/height */}}
+  {{- /* 找到 → WebP 全量优化 */}}
   {{- $w := $img.Width }}
   {{- $h := $img.Height }}
   {{- $srcsetItems := slice }}
-  {{- $sizesList := slice "400" "800" "1200" }}
-  {{- range $sizesList }}
+  {{- range slice "400" "800" "1200" }}
     {{- $sw := . | int }}
     {{- if ge $w $sw }}
-      {{- $webpResized := $img.Resize (printf "%dx webp" $sw) }}
-      {{- $srcsetItems = $srcsetItems | append (printf "%s %sw" $webpResized.RelPermalink $sw) }}
+      {{- $wResized := $img.Resize (printf "%dx webp" $sw) }}
+      {{- $srcsetItems = $srcsetItems | append (printf "%s %sw" $wResized.RelPermalink $sw) }}
     {{- end }}
   {{- end }}
   {{- $fullWebp := $img.Resize (printf "%dx%d webp" $w $h) }}
   {{- $fullAvif := $img.Resize (printf "%dx%d avif" $w $h) }}
-
-  {{- if $link }}<a href="{{ $link }}">{{ end -}}
+  {{- if $link }}<a href="{{ $link }}">{{ end }}
   <picture>
     <source srcset="{{ $fullAvif.RelPermalink }}" type="image/avif">
-    {{- if $srcsetItems }}
-    <source srcset="{{ delimit $srcsetItems ", " }}" sizes="(max-width:600px) 400px, (max-width:1024px) 800px, 1200px" type="image/webp">
-    {{- else }}
-    <source srcset="{{ $fullWebp.RelPermalink }}" type="image/webp">
-    {{- end }}
-    <img src="{{ $fullWebp.RelPermalink }}"
-         {{- if $srcsetItems }} srcset="{{ delimit $srcsetItems ", " }}" sizes="(max-width:600px) 400px, (max-width:1024px) 800px, 1200px"{{ end }}
-         width="{{ $w }}" height="{{ $h }}"
-         alt="{{ $alt }}" class="{{ $class }}"
-         loading="{{ if $lazy }}lazy{{ else }}eager{{ end }}"
-         fetchpriority="{{ $fp }}">
+    <source srcset="{{ if $srcsetItems }}{{ delimit $srcsetItems ", " }}{{ else }}{{ $fullWebp.RelPermalink }}{{ end }}" sizes="(max-width:600px) 400px, (max-width:1024px) 800px, 1200px" type="image/webp">
+    <img src="{{ $fullWebp.RelPermalink }}"{{ if $srcsetItems }} srcset="{{ delimit $srcsetItems ", " }}" sizes="(max-width:600px) 400px, (max-width:1024px) 800px, 1200px"{{ end }} width="{{ $w }}" height="{{ $h }}" alt="{{ $alt }}" class="{{ $class }}" loading="{{ if $lazy }}lazy{{ else }}eager{{ end }}" fetchpriority="{{ $fp }}">
   </picture>
-  {{- if $link }}</a>{{ end -}}
-
+  {{- if $link }}</a>{{ end }}
 {{- else }}
-  {{- /* 找不到 → fallback 直接输出 */}}
-  {{- if $link }}<a href="{{ $link }}">{{ end -}}
-  <img src="{{ $src | relURL }}" alt="{{ $alt }}" class="{{ $class }}"
-       loading="{{ if $lazy }}lazy{{ else }}eager{{ end }}"
-       fetchpriority="{{ $fp }}">
-  {{- if $link }}</a>{{ end -}}
+  {{- /* 找不到 → fallback 原始路径 */}}
+  {{- if $link }}<a href="{{ $link }}">{{ end }}
+  <img src="{{ $src | relURL }}" alt="{{ $alt }}" class="{{ $class }}" loading="{{ if $lazy }}lazy{{ else }}eager{{ end }}" fetchpriority="{{ $fp }}">
+  {{- if $link }}</a>{{ end }}
 {{- end -}}
