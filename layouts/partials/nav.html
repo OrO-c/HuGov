@@ -1,37 +1,57 @@
-{{- /* nav.html — 导航菜单栏（含下拉二级菜单）
-   从 Astro Nav.astro 迁移
-   菜单数据: .Site.Menus.main (定义于 config/_default/hugo.toml)
-   高亮标识: site.Params.navHighlight
+{{- /* nav.html — 响应式导航栏
+   桌面端(≥992px): 横向菜单栏
+   移动端(<992px): 右上角汉堡按钮，点击下拉展开
+   菜单数据: site.Menus.main
 */ -}}
 
 {{- $highlightId := site.Params.navHighlight | default "" }}
 {{- $dropdownArrow := site.Params.ui.dropdownArrow | default "▼" }}
 {{- $menuItems := site.Menus.main }}
+{{- $topBar := site.Params.topBar | default dict }}
+{{- $fl := site.Params.ui.fontSizeLabels | default dict }}
 
-{{- if $menuItems }}
-<nav class="nav">
-  <div class="container nav-inner">
-    {{- range $menuItems }}
-      {{- if .HasChildren }}
-      <div class="nav-item has-dropdown">
-        <a href="javascript:void(0)" class="nav-link{{ if eq .Identifier $highlightId }} highlight{{ end }}">
-          {{- .Name }}
-          <span class="nav-arrow">{{ $dropdownArrow }}</span>
-        </a>
-        <div class="dropdown-menu">
-          {{- range .Children }}
-          <a href="{{ .URL | relLangURL }}" target="{{ .Params.target | default "_self" }}" class="dropdown-item">{{ .Name }}</a>
-          {{- end }}
+<nav class="nav" id="mainNav">
+  <div class="container nav-container">
+    {{- /* 汉堡按钮（移动端可见）*/}}
+    <button class="nav-toggle" id="navToggle" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+
+    {{- /* 菜单项（桌面横向，移动端下拉）*/}}
+    <div class="nav-menu" id="navMenu">
+      {{- range $menuItems }}
+        {{- if .HasChildren }}
+        <div class="nav-item has-dropdown">
+          <a href="javascript:void(0)" class="nav-link{{ if eq .Identifier $highlightId }} highlight{{ end }}">
+            {{- .Name }}<span class="nav-arrow">{{ $dropdownArrow }}</span>
+          </a>
+          <div class="dropdown-menu">
+            {{- range .Children }}
+            <a href="{{ .URL | relLangURL }}" class="dropdown-item">{{ .Name }}</a>
+            {{- end }}
+          </div>
+        </div>
+        {{- else }}
+        <div class="nav-item">
+          <a href="{{ .URL | relLangURL }}" class="nav-link{{ if eq .Identifier $highlightId }} highlight{{ end }}">{{ .Name }}</a>
+        </div>
+        {{- end }}
+      {{- end }}
+
+      {{- /* 移动端额外：快捷入口 + 字号切换 */}}
+      <div class="nav-mobile-extra">
+        {{- range $topBar.quickLinks }}
+        <a href="{{ .url }}" class="nav-mobile-link">{{ .text }}</a>
+        {{- end }}
+        {{- range $topBar.rightLinks }}
+        <a href="{{ .url }}" class="nav-mobile-link">{{ .text }}</a>
+        {{- end }}
+        <div class="nav-mobile-font">
+          <a href="#" class="font-btn font-small" data-size="small">{{ $fl.small | default "小" }}</a>
+          <a href="#" class="font-btn font-medium" data-size="medium">{{ $fl.medium | default "中" }}</a>
+          <a href="#" class="font-btn font-large" data-size="large">{{ $fl.large | default "大" }}</a>
         </div>
       </div>
-      {{- else }}
-      <div class="nav-item">
-        <a href="{{ .URL | relLangURL }}" class="nav-link{{ if eq .Identifier $highlightId }} highlight{{ end }}">
-          {{- .Name }}
-        </a>
-      </div>
-      {{- end }}
-    {{- end }}
+    </div>
   </div>
 </nav>
-{{- end }}

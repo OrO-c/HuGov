@@ -160,6 +160,50 @@
   }
 
   /* ========================================================== */
+  /* 5. 移动端导航汉堡菜单                                   */
+  /* ========================================================== */
+  function initNav() {
+    var toggle = document.getElementById('navToggle');
+    var menu = document.getElementById('navMenu');
+    if (!toggle || !menu) return;
+
+    function closeMenu() {
+      menu.classList.remove('open');
+      toggle.classList.remove('active');
+    }
+
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      menu.classList.toggle('open');
+      toggle.classList.toggle('active');
+    });
+
+    // 点击菜单项收起
+    menu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        closeMenu();
+      });
+    });
+
+    // 点击页面空白处收起
+    document.addEventListener('click', function (e) {
+      if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+    // 移动端二级菜单：点击父项展开
+    menu.querySelectorAll('.has-dropdown > .nav-link').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        if (window.innerWidth < 992) {
+          e.preventDefault();
+          this.parentNode.classList.toggle('open');
+        }
+      });
+    });
+  }
+
+  /* ========================================================== */
   /* 初始化所有模块                                            */
   /* ========================================================== */
   if (document.readyState === 'loading') {
@@ -168,12 +212,14 @@
       initBanner();
       initCountdown();
       initQuickLinks();
+      initNav();
     });
   } else {
     initFontSize();
     initBanner();
     initCountdown();
     initQuickLinks();
+    initNav();
   }
 
 })();
