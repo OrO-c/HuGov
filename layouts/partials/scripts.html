@@ -1,4 +1,39 @@
-{{- /* scripts.html — 页面底部脚本
-   静态 JS（零编译依赖），覆盖轮播/倒计时/快速通道/字号切换/手机菜单
+{{- /* scripts.html — 三层JS渐进加载
+   1. critical.js (内联，首屏必需)
+   2. deferred.js (defer，非首屏)
+   3. lazy.js (IntersectionObserver触发，交互后加载)
 */ -}}
-<script data-cfasync="false" src="{{ "/js/theme.js" | relURL }}"></script>
+
+{{- /* 内联首屏JS */}}
+{{- $critical := resources.Get "js/critical.js" | resources.Minify | resources.Fingerprint }}
+<script data-cfasync="false">{{ $critical.Content | safeJS }}</script>
+
+{{- /* 非首屏JS（defer） */}}
+{{- $deferred := resources.Get "js/deferred.js" | resources.Minify | resources.Fingerprint }}
+<script data-cfasync="false" src="{{ $deferred.RelPermalink }}" defer></script>
+
+{{- /* 懒加载JS（IntersectionObserver触发） */}}
+{{- $lazy := resources.Get "js/lazy.js" | resources.Minify | resources.Fingerprint }}
+<script data-cfasync="false">
+(() => {
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const s = document.createElement('script');
+          s.src = '{{ $lazy.RelPermalink }}';
+          s.setAttribute('data-cfasync', 'false');
+          s.onload = () => { if (window.__lazyInit) window.__lazyInit(); };
+          document.body.appendChild(s);
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+    const sentinel = document.createElement('div');
+    sentinel.setAttribute('data-lazy-js', '');
+    sentinel.style.height = '1px';
+    document.body.appendChild(sentinel);
+    observer.observe(sentinel);
+  }
+})();
+</script>

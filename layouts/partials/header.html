@@ -13,11 +13,11 @@
     <div class="toolbar-right">
       {{- $fl := site.Params.ui.fontSizeLabels | default dict }}
       <span class="font-size-group">
-        <a href="#" class="font-btn font-small" data-size="small" title="{{ $fl.small | default "小" }}字号">{{ $fl.small | default "小" }}</a>
+        <button type="button" class="font-btn font-small" data-size="small" title="{{ $fl.small | default "小" }}字号">{{ $fl.small | default "小" }}</button>
         <span class="font-sep">|</span>
-        <a href="#" class="font-btn font-medium" data-size="medium" title="{{ $fl.medium | default "中" }}字号">{{ $fl.medium | default "中" }}</a>
+        <button type="button" class="font-btn font-medium" data-size="medium" title="{{ $fl.medium | default "中" }}字号">{{ $fl.medium | default "中" }}</button>
         <span class="font-sep">|</span>
-        <a href="#" class="font-btn font-large" data-size="large" title="{{ $fl.large | default "大" }}字号">{{ $fl.large | default "大" }}</a>
+        <button type="button" class="font-btn font-large" data-size="large" title="{{ $fl.large | default "大" }}字号">{{ $fl.large | default "大" }}</button>
       </span>
       {{- if $topBar.searchEnabled }}
       <form class="search-form" action="/search" method="get">

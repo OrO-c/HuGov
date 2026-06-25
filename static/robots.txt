@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: {{ site.Params.meta.siteUrl | default "https://example.com" }}/sitemap.xml

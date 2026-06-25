@@ -22,7 +22,7 @@
       {{- range $menuItems }}
         {{- if .HasChildren }}
         <div class="nav-item has-dropdown">
-          <a href="javascript:void(0)" class="nav-link{{ if eq .Identifier $highlightId }} highlight{{ end }}">
+          <a role="button" tabindex="0" class="nav-link has-sub{{ if eq .Identifier $highlightId }} highlight{{ end }}" aria-haspopup="true">
             {{- .Name }}<span class="nav-arrow">{{ $dropdownArrow }}</span>
           </a>
           <div class="dropdown-menu">
@@ -47,9 +47,9 @@
         <a href="{{ .url }}" class="nav-mobile-link">{{ .text }}</a>
         {{- end }}
         <div class="nav-mobile-font">
-          <a href="#" class="font-btn font-small" data-size="small">{{ $fl.small | default "小" }}</a>
-          <a href="#" class="font-btn font-medium" data-size="medium">{{ $fl.medium | default "中" }}</a>
-          <a href="#" class="font-btn font-large" data-size="large">{{ $fl.large | default "大" }}</a>
+          <button type="button" class="font-btn font-small" data-size="small">{{ $fl.small | default "小" }}</button>
+          <button type="button" class="font-btn font-medium" data-size="medium">{{ $fl.medium | default "中" }}</button>
+          <button type="button" class="font-btn font-large" data-size="large">{{ $fl.large | default "大" }}</button>
         </div>
       </div>
     </div>

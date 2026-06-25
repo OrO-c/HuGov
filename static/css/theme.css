@@ -448,7 +448,7 @@ h4 { font-size: 14px; }
 .toolbar-link-right { border-right: none; border-left: 1px solid rgba(255,255,255,.15); }
 .toolbar-link-right:first-child { border-left: none; }
 .font-size-group { display: flex; align-items: center; margin-right: 10px; white-space: nowrap; }
-.font-btn { color: #E8F0FF; text-decoration: none; padding: 0 3px; font-family: "宋体", "SimSun", serif; font-size: 12px; }
+.font-btn { color: #E8F0FF; background:none; border:none; cursor:pointer; padding: 0 3px; font-family: "宋体", "SimSun", serif; font-size: 12px; line-height:1; min-height:auto; }
 .font-btn:hover { color: #FFF; text-decoration: underline; }
 .font-btn.active { color: #FFF; font-weight: bold; }
 .font-sep { color: #8AC; margin: 0 2px; }
@@ -504,16 +504,17 @@ h4 { font-size: 14px; }
 .nav-menu { display: flex; flex-wrap: nowrap; flex: 1; }
 
 .nav-item { position: relative; flex: 0 0 auto; }
-.nav-link { display: block; padding: 8px 18px; color: #FFF; font-size: 15px; font-weight: bold; text-decoration: none; font-family: "黑体","SimHei",sans-serif; white-space: nowrap; border-right: 1px solid rgba(255,255,255,.15); transition: background .15s; line-height: 1.4; }
+.nav-link { display: block; padding: 8px 18px; color: #FFF; font-size: 15px; font-weight: bold; text-decoration: none; font-family: "黑体","SimHei",sans-serif; white-space: nowrap; border-right: 1px solid rgba(255,255,255,.15); transition: background .15s; line-height: 1.4; min-height:44px; display:flex; align-items:center; }
 .nav-link:hover { background: rgba(0,0,0,.2); text-decoration: none; color: #FFF; }
 .nav-link.highlight { background: #FF6600; }
 .nav-link.highlight:hover { background: #E05500; }
+.nav-link.has-sub { cursor: default; }
 .nav-arrow { font-size: 10px; margin-left: 4px; vertical-align: middle; }
 
 /* 二级下拉菜单 */
 .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; min-width: 140px; background: #FFF; border: 1px solid var(--color-border, #CCC); border-top: 2px solid var(--color-secondary, #C00); z-index: 200; padding: 0; }
 .nav-item:hover .dropdown-menu { display: block; }
-.dropdown-item { display: block; padding: 8px 16px; color: #333; font-size: 13px; font-family: "宋体","SimSun",serif; text-decoration: none; border-bottom: 1px solid #EEE; }
+.dropdown-item { display: flex; align-items: center; min-height:44px; padding: 8px 16px; color: #333; font-size: 13px; font-family: "宋体","SimSun",serif; text-decoration: none; border-bottom: 1px solid #EEE; }
 .dropdown-item:last-child { border-bottom: none; }
 .dropdown-item:hover { background: #F5F5F5; color: var(--color-primary, #036); text-decoration: none; }
 

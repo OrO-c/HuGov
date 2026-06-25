@@ -1,12 +1,11 @@
 {{- /* head.html — <head> 区块
-   从 Astro BaseLayout.astro 的 <head> 部分迁移
-   读取 site.Params 中的配色方案生成 CSS 变量
+   优化: 内联critical CSS → 异步加载完整theme.css → preconnect/dns-prefetch
 */ -}}
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  {{- /* 页面标题：若有 section title 则追加站点标题 */}}
+  {{- /* 页面标题 */}}
   {{- $siteTitle := site.Title }}
   {{- $pageTitle := .Title }}
   <title>{{ if and $pageTitle (ne $pageTitle $siteTitle) }}{{ $pageTitle }} - {{ end }}{{ $siteTitle }}</title>
@@ -21,14 +20,17 @@
   {{- $icon := site.Params.siteIcon | default "/favicon.svg" }}
   <link rel="icon" href="{{ $icon }}" type="image/svg+xml" />
 
-  {{- /* 主题样式 — 静态 CSS（零编译依赖，无需 Hugo Extended） */}}
-  <link rel="stylesheet" href="{{ "/css/theme.css" | relURL }}" />
+  {{- /* 资源提示 */}}
+  <link rel="dns-prefetch" href="//wjyu.edu.oroc.top">
+  <link rel="preconnect" href="//wjyu.edu.oroc.top">
 
-  {{- /* 可选：若使用 Hugo Extended，可启用以下 Hugo Pipes 编译 SCSS
-       {{- with resources.Get "sass/main.scss" | toCSS | minify | fingerprint }}
-       <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
-       {{- end }}
-  */ -}}
+  {{- /* 内联首屏关键CSS */}}
+  {{- $critical := resources.Get "css/critical.css" | resources.Minify }}
+  <style>{{ $critical.Content | safeCSS }}</style>
+
+  {{- /* 异步加载完整主题CSS */}}
+  <link rel="preload" href="{{ "/css/theme.css" | relURL }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="{{ "/css/theme.css" | relURL }}"></noscript>
 
   {{- /* CSS 变量 — 从 params.colors 动态注入 */}}
   {{- $c := site.Params.colors | default dict }}
@@ -40,7 +42,7 @@
   {{- $text         := $c.text         | default "#333333" }}
   {{- $link         := $c.link         | default "#0000FF" }}
   {{- $linkVisited  := $c.linkVisited  | default "#800080" }}
-  {{- $border       := $c.border       | default "#CCCCCC" }}
+  {{- $border       := $c.border       | default "#D0D0D0" }}
   {{- $divider      := $c.divider      | default "#EEEEEE" }}
   {{- $fontFamily   := $c.fontFamily   | default "宋体, SimSun, serif" }}
   <style>
