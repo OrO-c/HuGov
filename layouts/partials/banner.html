@@ -12,7 +12,7 @@
 {{- $height := site.Params.bannerHeight | default 360 }}
 {{- $prevText := site.Params.ui.banner.prevText | default "‹" }}
 {{- $nextText := site.Params.ui.banner.nextText | default "›" }}
-<div class="banner" id="banner" style="--banner-height: {{ $height }}px; height:{{ $height }}px;">
+<div class="banner" id="banner" style="--banner-height: {{ $height }}px;">
   <div class="banner-slides" id="bannerSlides">
     {{- range $i, $p := $images }}
     <div class="banner-slide" data-index="{{ $i }}">
