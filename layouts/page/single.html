@@ -13,7 +13,10 @@
   </nav>
 
   <article class="article">
-    <h1 class="page-title">{{ .Title }}</h1>
+    <div class="article-title-bar">
+      <h1 class="page-title">{{ .Title }}</h1>
+      {{ partial "print-button.html" . }}
+    </div>
     <div class="article-content">
       {{ .Content }}
     </div>

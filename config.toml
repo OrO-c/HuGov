@@ -97,6 +97,7 @@
     moreText = "更多 →"
     dropdownArrow = "▼"
     copyright = "版权所有 © {year} {org}"
+    printButton = false
 
     [params.ui.quickLinks]
       title = "快速通道"
