@@ -737,7 +737,6 @@ h4 { font-size: 14px; }
 @media (min-width: 1200px) {
   .banner {
     aspect-ratio: 16 / 9;
-    max-height: 75vh;
     border-radius: 12px;
     margin: 0 auto;
     width: 100%;
@@ -785,9 +784,10 @@ h4 { font-size: 14px; }
 /* 组件样式 — 轮播图                         */
 /* ============================================================ */
 .banner { position: relative; width: 100%; overflow: hidden; background: var(--color-primary, #003366); aspect-ratio: 16 / 9; }
-.banner-slides { position: relative; }
-.banner-slide { display: none; }
+.banner-slides { position: relative; height: 100%; }
+.banner-slide { display: none; height: 100%; }
 .banner-slide:first-child { display: block; }
+.banner-slide picture { display: block; height: 100%; }
 .banner-slide-img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .banner-btn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(0,0,0,.35); color: #FFF; border: none; font-size: 36px; line-height: 1; padding: 8px 14px; cursor: pointer; font-family: Arial,sans-serif; transition: background .2s; border-radius: 0; }
 .banner-btn:hover { background: rgba(0,0,0,.6); }
