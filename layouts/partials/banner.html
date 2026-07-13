@@ -16,7 +16,7 @@
   <div class="banner-slides" id="bannerSlides">
     {{- range $i, $p := $images }}
     <div class="banner-slide" data-index="{{ $i }}">
-      {{- $imgCtx := dict "src" $p.Params.src "alt" $p.Params.src "class" "banner-slide-img" "lazy" (ne $i 0) "fetchpriority" (cond (eq $i 0) "high" "auto") }}
+      {{- $imgCtx := dict "src" $p.Params.src "alt" ($p.Params.alt | default $p.Params.src) "class" "banner-slide-img" "lazy" (ne $i 0) "fetchpriority" (cond (eq $i 0) "high" "auto") }}
       {{- if $p.Params.link }}
         {{- $imgCtx = merge $imgCtx (dict "link" $p.Params.link) }}
       {{- end }}

@@ -71,22 +71,29 @@
     runNext();
   };
 
-  /* ---------- 5. 定时器管理（bfcache友好） ---------- */
+  /* ---------- 5. 定时器管理（bfcache & visibilitychange 友好） ---------- */
   window.__timerIds = [];
+  window.__timerEntries = []; // 保存 { fn, delay } 以便重启
   const origSetInterval = window.setInterval;
   window.safeSetInterval = (fn, delay) => {
     const id = origSetInterval(fn, delay);
     window.__timerIds.push(id);
+    window.__timerEntries.push({ fn, delay });
     return id;
   };
   window.__resumeTimers = () => {
-    // 实际定时器在 deferred.js 中通过 safeSetInterval 注册
-    // 此处仅为声明备用
+    window.__timerEntries.forEach((entry) => {
+      const id = origSetInterval(entry.fn, entry.delay);
+      window.__timerIds.push(id);
+    });
   };
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       window.__timerIds.forEach((id) => clearInterval(id));
       window.__timerIds = [];
+    } else {
+      // 页面重新可见 — 重启所有通过 safeSetInterval 注册的定时器
+      if (typeof window.__resumeTimers === 'function') window.__resumeTimers();
     }
   });
 
