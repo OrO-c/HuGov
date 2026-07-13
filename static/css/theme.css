@@ -42,6 +42,7 @@ img {
   .page-section { padding: 30px 0; }
   .module { padding: 20px; margin-bottom: 24px; }
   .module-title { font-size: 1.125rem; }
+  .article-cover { max-width: 800px; margin: 0 auto 20px; }
 }
 
 a {
