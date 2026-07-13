@@ -38,11 +38,12 @@ img {
 @media (min-width: 1200px) {
   html { font-size: 16px; }
   body { font-size: 16px; line-height: 1.9; }
-  .container { max-width: 1280px; padding: 0 40px; }
+  .container { max-width: 1280px; padding: 0 20px; }
   .page-section { padding: 30px 0; }
   .module { padding: 20px; margin-bottom: 24px; }
   .module-title { font-size: 1.125rem; }
   .article-cover { max-width: 800px; margin: 0 auto 20px; }
+  .article { max-width: 800px; margin-left: auto; margin-right: auto; }
 }
 
 a {
@@ -818,6 +819,7 @@ h2.card-title { font-size: 13px; font-weight: bold; font-family: "黑体","SimHe
 /* ============================================================ */
 @media (min-width: 1200px) {
   .two-col { gap: 32px; }
+  .two-col .col-side { flex: 0 0 calc(30% - 32px); max-width: calc(30% - 32px); }
   .list-header { margin-bottom: 12px; padding-bottom: 10px; }
   .list-item { transition: padding-left 0.15s; }
   .list-item:hover { padding-left: 6px; }
@@ -833,12 +835,12 @@ h2.card-title { font-size: 13px; font-weight: bold; font-family: "黑体","SimHe
 /* ============================================================ */
 @media (min-width: 1200px) {
   .footer { padding: 28px 0 16px; font-size: 0.9rem; }
-  .footer .container { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; }
+  .footer .container { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; }
   .footer-bar { grid-column: 1 / -1; text-align: center; margin-bottom: 8px; }
   .footer-contacts { grid-column: 1; text-align: left; }
   .contact-item { display: block; margin: 0 0 6px; font-size: 0.9rem; }
   .footer-extra { grid-column: 2; text-align: left; }
-  .footer-extra a { display: block; padding: 6px 0; }
+  .footer-extra a { display: block; padding: 6px 12px; }
   .footer-qr { grid-column: 3; justify-content: flex-start; }
   .footer-copyright { grid-column: 1 / -1; text-align: center; padding-top: 16px; margin-top: 16px; border-top: 1px solid rgba(255,255,255,.1); }
   .footer .footer-sep { display: none; }
