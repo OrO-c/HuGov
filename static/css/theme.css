@@ -550,6 +550,21 @@ h4 { font-size: 14px; }
 .site-name a:hover { color: var(--color-secondary, #CC0000); }
 .site-subtitle { font-size: 13px; color: #555; margin-top: 2px; font-family: "宋体", "SimSun", serif; }
 
+/* 纯图片标题模式 */
+.header-main--image { padding: 0; overflow: hidden; }
+.header-image {
+  display: block;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+@media (min-width: 1200px) {
+  .header-image { height: 220px; }
+}
+@media (max-width: 768px) {
+  .header-image { height: 120px; }
+}
+
 /* ============================================================ */
 /* 桌面端 Toolbar + 导航                                    */
 /* ============================================================ */
@@ -560,6 +575,7 @@ h4 { font-size: 14px; }
   .font-btn { font-size: 0.875rem; padding: 0 4px; }
   .header-main { padding: 16px 0; }
   .header-main-inner { padding-left: 0; padding-right: 0; }
+  .header-main--image { padding: 0; }
   .logo-img { max-height: 72px; }
   .site-name { font-size: 1.75rem; }
   .site-subtitle { font-size: 1rem; color: #555; margin-top: 4px; }

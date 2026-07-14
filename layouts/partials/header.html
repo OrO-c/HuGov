@@ -36,8 +36,15 @@
 {{- $siteName := site.Title }}
 {{- $siteSubtitle := site.Params.siteSubtitle }}
 {{- $siteLogo := site.Params.siteLogo }}
-<div class="header-main">
+{{- $headerMode := site.Params.headerMode | default "text" }}
+{{- $headerImg := site.Params.headerImage }}
+<div class="header-main{{ if eq $headerMode "image" }} header-main--image{{ end }}">
   <div class="container header-main-inner">
+    {{- if eq $headerMode "image" }}
+    {{- if $headerImg }}
+    <img src="{{ $headerImg | relURL }}" alt="" class="header-image" />
+    {{- end }}
+    {{- else }}
     {{- if $siteLogo }}
     <a href="{{ "/" | relLangURL }}" class="logo-link">
       {{ partial "image.html" (dict "src" $siteLogo "alt" $siteName "class" "logo-img" "lazy" false) }}
@@ -49,5 +56,6 @@
       <p class="site-subtitle">{{ $siteSubtitle }}</p>
       {{- end }}
     </div>
+    {{- end }}
   </div>
 </div>

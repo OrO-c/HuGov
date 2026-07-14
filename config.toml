@@ -19,6 +19,11 @@
   siteIcon = "/favicon.svg"
   defaultFontSize = "medium"
 
+  # 标题模式："text" = Logo + 站名 + 副标题（默认）
+  #          "image" = 纯图片标题（需设置 headerImage）
+  headerMode = "text"
+  headerImage = ""
+
   # ============================================================
   # 配色方案（CSS 变量）
   # ============================================================
