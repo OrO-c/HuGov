@@ -31,19 +31,33 @@
     </div>
     {{- end }}
 
-    {{- /* 文章标题 + 打印按钮 */}}
-    <div class="article-title-bar">
-      <h1 class="article-title">{{ .Title }}</h1>
-      {{ partial "print-button.html" . }}
-    </div>
+    <h1 class="article-title">{{ .Title }}</h1>
 
-    {{- /* 文章元信息（仅文章类页面显示，独立页面不显示）*/}}
+    {{- /* 文章信息栏：日期/作者 + 字号按钮/打印 */}}
     {{- if .Section }}
-    <div class="article-meta">
-      <time class="article-date">{{ .Date.Format "2006-01-02" }}</time>
-      {{- with .Params.author }}
-      <span class="article-author">{{ $authorLabel }}{{ . }}</span>
-      {{- end }}
+    {{- $fsz := site.Params.ui.fontSizeButtons | default false }}
+    {{- $prt := site.Params.ui.printButton | default false }}
+    <div class="article-head">
+      <div class="article-head-left">
+        <time>{{ .Date.Format "2006-01-02" }}</time>
+        {{- with .Params.author }}
+        <span>{{ . }}</span>
+        {{- end }}
+      </div>
+      <div class="article-head-right">
+        {{- if $fsz }}
+        <span class="article-head-font">
+          <button type="button" class="fh-btn" data-size="large">大</button>
+          <span class="fh-split">|</span>
+          <button type="button" class="fh-btn active" data-size="medium">中</button>
+          <span class="fh-split">|</span>
+          <button type="button" class="fh-btn" data-size="small">小</button>
+        </span>
+        {{- end }}
+        {{- if $prt }}
+        <button type="button" class="article-head-print" onclick="window.print()">打印</button>
+        {{- end }}
+      </div>
     </div>
     {{- end }}
 

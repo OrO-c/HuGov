@@ -259,6 +259,74 @@ h4 { font-size: 14px; }
   color: var(--color-primary, #003366);
 }
 
+/* 文章信息栏 */
+.article-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border, #E8E8E8);
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.article-head-left {
+  font-size: 13px;
+  color: #999;
+}
+.article-head-left time {
+  margin-right: 10px;
+}
+.article-head-right {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-left: auto;
+}
+.article-head-font {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  color: #666;
+  font-size: 13px;
+}
+.fh-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 3px;
+  font-family: inherit;
+  font-size: 13px;
+  color: #666;
+  line-height: 1;
+}
+.fh-btn:hover {
+  color: #C00;
+}
+.fh-btn.active {
+  color: #000;
+  font-weight: bold;
+}
+.fh-split {
+  color: #DDD;
+  font-size: 11px;
+  line-height: 1;
+}
+.article-head-print {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0056B3;
+  font-size: 13px;
+  font-family: inherit;
+  padding: 0 0 0 6px;
+  line-height: 1;
+}
+.article-head-print:hover {
+  color: #C00;
+  text-decoration: underline;
+}
+
 /* 文章标题栏 — 标题与打印按钮 flex 容器 */
 .article-title-bar {
   display: flex;
