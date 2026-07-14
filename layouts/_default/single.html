@@ -55,7 +55,10 @@
         </span>
         {{- end }}
         {{- if $prt }}
-        <button type="button" class="article-head-print" onclick="window.print()">打印</button>
+        <button type="button" class="article-head-print" onclick="window.print()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><path d="M4 9h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2z"/><path d="M6 14h12v7H6z"/></svg>
+          打印
+        </button>
         {{- end }}
       </div>
     </div>
