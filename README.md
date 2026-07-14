@@ -254,9 +254,9 @@ defaultFontSize = "medium"
 
   # 备案信息
   [[footer.records]]
-    label = "萌ICP备"
+    label = "XXXX"
     value = "XXXXXXXX号"
-    link  = "https://beian.miit.gov.cn/"
+    link  = "https://example.com"
 
   # 页脚右侧链接（可选）
   [[footer.extraLinks]]
@@ -389,7 +389,7 @@ hugo new content news/文章标题.md
 # 学术动态
 hugo new content academics/文章标题.md
 
-# 俊伊精神
+# 精神
 hugo new content spirit/文章标题.md
 ```
 
@@ -424,7 +424,7 @@ image: "/images/cover/news/ceremony.jpg"
 writer: "张编辑"
 photographer: "李明"
 reviewers: ["张编辑", "王主任"]
-source: "党委宣传部"
+source: "宣传部"
 ---
 
 　　2026年9月1日上午，我校开学典礼在体育馆隆重举行。
