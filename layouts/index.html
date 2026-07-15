@@ -21,48 +21,25 @@
     {{- partial "quick-links.html" . }}
   {{- end }}
 
-  {{- /* 4. 分类文章列表（两栏布局） */}}
+  {{- /* 4. 分类文章列表（单栏全宽竖排） */}}
   {{- $categories := site.Params.categories | default slice }}
   {{- if $categories }}
-    {{- /* 分离 main 和 side 分类 */}}
-    {{- $mainCats := where $categories "side" "main" }}
-    {{- $sideCats := where $categories "side" "side" }}
-
-    {{- if or $mainCats $sideCats }}
-    <div class="container page-section">
-      <div class="two-col">
-        {{- /* 左栏 70% — main 分类 */}}
-        {{- if $mainCats }}
-        <div class="col-main">
-          {{- range $mainCats }}
-            {{- $ctx := dict "title" .title "slug" .slug "limit" .limit }}
-            {{- partial "category-section.html" $ctx }}
-          {{- end }}
-        </div>
-        {{- end }}
-
-        {{- /* 右栏 30% — side 分类 */}}
-        {{- if $sideCats }}
-        <div class="col-side">
-          {{- range $sideCats }}
-            {{- $ctx := dict "title" .title "slug" .slug "limit" .limit }}
-            {{- partial "category-section.html" $ctx }}
-          {{- end }}
-
-          {{- /* 友情链接（通常在右栏） */}}
-          {{- if site.Params.modules.friendLinks | default true }}
-            {{- partial "friend-links.html" . }}
-          {{- end }}
-
-          {{- /* 倒计时（通常在右栏） */}}
-          {{- if site.Params.modules.countdown | default false }}
-            {{- partial "countdown.html" . }}
-          {{- end }}
-        </div>
-        {{- end }}
-      </div>
-    </div>
+  <div class="container page-section">
+    {{- range $categories }}
+      {{- $ctx := dict "title" .title "slug" .slug "limit" .limit }}
+      {{- partial "category-section.html" $ctx }}
     {{- end }}
+
+    {{- /* 友情链接 */}}
+    {{- if site.Params.modules.friendLinks | default true }}
+      {{- partial "friend-links.html" . }}
+    {{- end }}
+
+    {{- /* 倒计时 */}}
+    {{- if site.Params.modules.countdown | default false }}
+      {{- partial "countdown.html" . }}
+    {{- end }}
+  </div>
   {{- end }}
 
 {{ end }}

@@ -1003,6 +1003,90 @@ h2.card-title { font-size: 13px; font-weight: bold; font-family: "黑体","SimHe
 .contact-item { margin: 0 10px; }
 
 /* ============================================================ */
+/* 首页分类列表（单栏全宽，左图右文）           */
+/* ============================================================ */
+.hl-box {
+  margin-bottom: 20px;
+}
+.hl-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--color-primary, #036);
+  margin-bottom: 0;
+}
+.hl-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--color-primary, #036);
+  margin: 0;
+}
+.hl-more {
+  font-size: 14px;
+  color: var(--color-link, #00F);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.hl-more:hover {
+  color: var(--color-secondary, #C00);
+  text-decoration: underline;
+}
+.hl-list {
+  display: flex;
+  flex-direction: column;
+}
+.hl-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-divider, #EEE);
+  transition: background 0.12s;
+}
+.hl-row:last-child {
+  border-bottom: none;
+}
+.hl-row:hover {
+  background: #F5F5F5;
+  margin: 0 -8px;
+  padding: 10px 8px;
+  border-radius: 0;
+}
+.hl-pic {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F0F0F0;
+}
+.hl-pic--na {
+  font-size: 32px;
+  line-height: 1;
+  color: #CCC;
+}
+.hl-img {
+  width: 80px;
+  height: 80px;
+  display: block;
+  object-fit: cover;
+}
+.hl-txt {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--color-text, #333);
+  line-height: 1.4;
+}
+.hl-row:hover .hl-txt {
+  color: var(--color-secondary, #C00);
+}
+
+/* ============================================================ */
 /* 组件样式 — 模块标题、文章列表、两栏         */
 /* ============================================================ */
 .module-title {

@@ -1,4 +1,4 @@
-{{- /* category-section.html — 分类文章列表区块（首页用，无日期显示）*/ -}}
+{{- /* category-section.html — 分类文章列表区块（左图右文样式）*/ -}}
 
 {{- $slug := .slug }}
 {{- $limit := .limit | default 5 }}
@@ -9,19 +9,32 @@
 {{- $showPosts := first $limit $posts }}
 
 {{- if $showPosts }}
-<div class="module">
-  <div class="list-header">
-    <h3 class="module-title">{{ .title }}</h3>
+<div class="hl-box">
+  <div class="hl-head">
+    <h3 class="hl-title">{{ .title }}</h3>
     {{- $listUrl := printf "/%s/" $slug }}
-    <a href="{{ $listUrl | relLangURL }}" class="more-link">{{ $moreText }}</a>
+    <a href="{{ $listUrl | relLangURL }}" class="hl-more">{{ $moreText }}</a>
   </div>
-  <div class="list-body">
+  <div class="hl-list">
     {{- range $showPosts }}
-    <div class="list-item">
-      <a href="{{ .RelPermalink }}" class="list-link">
-        <span class="list-text">{{ .Title }}</span>
-      </a>
-    </div>
+    <a href="{{ .RelPermalink }}" class="hl-row">
+      {{- $thumb := "" }}
+      {{- with .Params.image }}
+        {{- $cleanSrc := trim . "/" }}
+        {{- $img := resources.Get $cleanSrc }}
+        {{- if $img }}
+          {{- $thumb = ($img.Resize "80x80 webp q80").RelPermalink }}
+        {{- end }}
+      {{- end }}
+      <span class="hl-pic{{ if not $thumb }} hl-pic--na{{ end }}">
+        {{- if $thumb }}
+        <img src="{{ $thumb }}" alt="" class="hl-img" />
+        {{- else }}
+        <span class="hl-ico">📄</span>
+        {{- end }}
+      </span>
+      <span class="hl-txt">{{ .Title }}</span>
+    </a>
     {{- end }}
   </div>
 </div>
