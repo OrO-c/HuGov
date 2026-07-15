@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-font-size="{{ site.Params.defaultFontSize | default "medium" }}">
 {{- partial "head.html" . }}
-<body>
+{{- $bg := site.Params.background }}
+<body{{ if $bg.enabled }} class="has-bg"{{ end }}>
   {{- partial "header.html" . }}
   {{- partial "nav.html" . }}
-  <main>
+  <main{{ if and $bg.enabled $bg.images }} data-bg-images="{{ $bg.images | jsonify }}" data-bg-interval="{{ $bg.interval | default 5000 }}"{{ end }}>
     {{- block "main" . }}{{ end }}
   </main>
   {{- partial "footer.html" . }}

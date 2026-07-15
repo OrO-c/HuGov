@@ -80,4 +80,20 @@
         : qlToggle.getAttribute('data-expand') || '展开更多';
     });
   }
+  /* ---------- 4. 内容区背景图轮播 ---------- */
+  const mainEl = document.querySelector('main[data-bg-images]');
+  if (mainEl) {
+    try {
+      const imgs = JSON.parse(mainEl.getAttribute('data-bg-images'));
+      if (imgs && imgs.length) {
+        const iv = parseInt(mainEl.getAttribute('data-bg-interval') || '5000', 10);
+        let idx = 0;
+        const apply = (i) => { mainEl.style.backgroundImage = 'url("' + imgs[i] + '")'; };
+        apply(0);
+        if (imgs.length > 1) {
+          window.safeSetInterval(() => { idx = (idx + 1) % imgs.length; apply(idx); }, iv);
+        }
+      }
+    } catch (_) {}
+  }
 })();

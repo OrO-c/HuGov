@@ -26,6 +26,20 @@ body {
   min-height: 100vh;
 }
 
+/* 内容区背景图片 */
+body.has-bg main {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 70vh;
+}
+@media (max-width: 768px) {
+  body.has-bg main {
+    background-attachment: scroll;
+  }
+}
+
 img {
   max-width: 100%;
   height: auto;

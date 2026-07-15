@@ -21,6 +21,7 @@
   - [倒计时组件](#倒计时组件)
   - [SEO 元数据](#seo-元数据)
   - [文章页选项](#文章页选项)
+  - [背景图片](#背景图片)
   - [标题模式](#标题模式)
 - [内容管理](#内容管理)
   - [创建栏目](#创建栏目)
@@ -245,7 +246,7 @@ defaultFontSize = "medium"
 [footer]
   organization  = "贵校名称"
   footerLogo    = "/images/logo.png"
-  policeRecord  = "吉公网安备 220xxxxxxxxx号"
+  policeRecord  = "XXXX备 xxxxxxxxxxxx号"
 
   # 联系信息
   [[footer.contacts]]
@@ -335,6 +336,26 @@ defaultFontSize = "medium"
 ```
 
 两个按钮在文章标题下方并排右对齐。只启用其中一个时，它自动顶到最右侧。
+
+### 背景图片
+
+可在内容区（Toolbar/Header/Footer 之外的区域）显示背景图片。
+
+```toml
+[background]
+  enabled = false          # 是否启用
+  images = []              # 图片路径数组，单张=静态，多张=轮播
+  interval = 5000          # 轮播间隔（毫秒）
+```
+
+启用后，背景图铺满 `<main>` 区域，`background-size: cover` 居中裁剪。
+
+- **单张图片**：静态显示
+- **多张图片**：自动轮播，每隔 `interval` 毫秒切换到下一张
+- **小屏（≤768px）**：`background-attachment` 切换为 `scroll` 避免滚动卡顿
+- 所有内容容器（模块、文章等）保持原有白色背景，背景图仅在容器间隙中可见
+
+图片建议使用 16:9 比例。图片路径相对于 `static/` 或 `assets/` 目录。
 
 ### 标题模式
 
