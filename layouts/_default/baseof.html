@@ -2,10 +2,23 @@
 <html lang="zh-CN" data-font-size="{{ site.Params.defaultFontSize | default "medium" }}">
 {{- partial "head.html" . }}
 {{- $bg := site.Params.background }}
+{{- $bgImgs := slice }}
+{{- if and $bg.enabled $bg.images }}
+  {{- range $bg.images }}
+    {{- $src := trim . "/" }}
+    {{- $img := resources.Get $src }}
+    {{- if $img }}
+      {{- $resized := $img.Resize "1920x webp q80" }}
+      {{- $bgImgs = $bgImgs | append $resized.Permalink }}
+    {{- else }}
+      {{- $bgImgs = $bgImgs | append (. | relURL) }}
+    {{- end }}
+  {{- end }}
+{{- end }}
 <body{{ if $bg.enabled }} class="has-bg"{{ end }}>
   {{- partial "header.html" . }}
   {{- partial "nav.html" . }}
-  <main{{ if and $bg.enabled $bg.images }} data-bg-images="{{ $bg.images | jsonify }}" data-bg-interval="{{ $bg.interval | default 5000 }}"{{ end }}>
+  <main{{ if $bgImgs }} data-bg-images="{{ $bgImgs | jsonify }}" data-bg-interval="{{ $bg.interval | default 5000 }}"{{ end }}>
     {{- block "main" . }}{{ end }}
   </main>
   {{- partial "footer.html" . }}
